@@ -99,63 +99,63 @@ jobs:
       - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
 ####################### DOCKER Based WAR CI/CD JOBS #######################
-## package sample WAR into docker container
-#  - name: build_doc_war
-#    type: runCLI
-#    steps:
-#      - IN: docker_creds
-#      - IN: demo_war
-#        switch: off
-#      - IN: demo_doc_repo
-#      - TASK:
-#        - script: IN/demo_doc_repo/gitRepo/build.sh
-#      - OUT: demo_doc_img
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILED"
-#
-##  manifest that defines the DOCKER WAR service definition
-#  - name: demo_doc_man
-#    type: manifest
-#    steps:
-#      - IN: demo_doc_img
-#      - IN: doc_img_opts
-#
-### deploy job that deploys native war to TEST ECS Cluster
-#  - name: demo_doc_test
-#    type: deploy
-#    steps:
-#      - IN: demo_doc_man
-#      - IN: env_test_aws
-#      - IN: test_infra_prov
-#        switch: off
-#      - TASK: managed
-#
-## deploy job that deploys native war to PROD ECS Cluster
-#  - name: demo_doc_prod
-#    type: deploy
-#    steps:
-#      - IN: prod_infra_prov
-#        switch: off
-#      - IN: doc_p_scaler
-#      - IN: demo_doc_test
-#        switch: off
-#      - IN: env_prod_aws
-#      - TASK: managed
-#
-########################## WAR SIT JOBS #########################
-## job to run SIT testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: demo_doc_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: sudo apt-get install -y jq
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
+# package sample WAR into docker container
+  - name: build_doc_war
+    type: runCLI
+    steps:
+      - IN: docker_creds
+      - IN: demo_war
+        switch: off
+      - IN: demo_doc_repo
+      - TASK:
+        - script: IN/demo_doc_repo/gitRepo/build.sh
+      - OUT: demo_doc_img
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILED"
+
+#  manifest that defines the DOCKER WAR service definition
+  - name: demo_doc_man
+    type: manifest
+    steps:
+      - IN: demo_doc_img
+      - IN: doc_img_opts
+
+## deploy job that deploys native war to TEST ECS Cluster
+  - name: demo_doc_test
+    type: deploy
+    steps:
+      - IN: demo_doc_man
+      - IN: env_test_aws
+      - IN: test_infra_prov
+        switch: off
+      - TASK: managed
+
+# deploy job that deploys native war to PROD ECS Cluster
+  - name: demo_doc_prod
+    type: deploy
+    steps:
+      - IN: prod_infra_prov
+        switch: off
+      - IN: doc_p_scaler
+      - IN: demo_doc_test
+        switch: off
+      - IN: env_prod_aws
+      - TASK: managed
+
+######################### WAR SIT JOBS #########################
+# job to run SIT testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: demo_doc_test
+      - IN: sit_params
+      - TASK:
+        - script: sudo apt-get install -y jq
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
