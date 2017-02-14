@@ -1,26 +1,26 @@
 resources:
 ###################### NATIVE WAR CI/CD RESOURCES #########################
-## JFROG WAR reference
-#  - name: demo_war
-#    type: file
-#    integration: "demo-jf"
-#    pointer:
-#      sourceName: "builds/HelloWorld.war"
-#    seed:
-#      versionName: initial
-#
-## VM Cluster
-#  - name: demo_war_test_cls
-#    type: cluster
-#    integration: "demo-vm-cluster"
-#
-## Parameters to Run WAR
-#  - name: demo_war_params
-#    type: params
-#    version:
-#      params:
-#        ENVIRONMENT: "FOO"
-#
+# JFROG WAR reference
+  - name: demo_war
+    type: file
+    integration: "demo-jf"
+    pointer:
+      sourceName: "builds/HelloWorld.war"
+    seed:
+      versionName: initial
+
+# VM Cluster
+  - name: demo_war_test_cls
+    type: cluster
+    integration: "demo-vm-cluster"
+
+# Parameters to Run WAR
+  - name: demo_war_params
+    type: params
+    version:
+      params:
+        ENVIRONMENT: "FOO"
+
 ######################### AUTOMATION AS CODE REPO #########################
 ## REPO for all automation
 #  - name: auto_repo
