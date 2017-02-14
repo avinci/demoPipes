@@ -16,6 +16,7 @@ jobs:
       - IN: demo_war_test_cls
       - TASK:
         - script: sudo rm -rf /opt/tomcat/webapps/HelloWorld.war
+        - script: sudo apt-get install -y htop
         - script: sudo cp /tmp/shippable/demo_war_manifest/demo_war/HelloWorld.war /opt/tomcat/webapps/HelloWorld.war
 
 ########################### INFRA AUTOMATION JOBS #########################
