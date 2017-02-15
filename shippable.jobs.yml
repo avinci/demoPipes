@@ -120,21 +120,21 @@ jobs:
       - IN: env_prod_aws
       - TASK: managed
 
-########################## WAR SIT JOBS #########################
-## job to run SIT testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: demo_doc_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: sudo apt-get install -y jq
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
+######################### WAR SIT JOBS #########################
+# job to run SIT testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: demo_doc_test
+      - IN: sit_params
+      - TASK:
+        - script: sudo apt-get install -y jq
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
 
 ######################### NATIVE WAR CI/CD JOBS #########################
 ## manifest that defines the Native WAR service definition
