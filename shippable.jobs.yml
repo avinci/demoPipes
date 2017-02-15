@@ -115,8 +115,7 @@ jobs:
       - IN: prod_infra_prov
         switch: off
       - IN: doc_p_scaler
-      - IN: demo_doc_test
-        switch: off
+      - IN: sit
       - IN: env_prod_aws
       - TASK: managed
 
