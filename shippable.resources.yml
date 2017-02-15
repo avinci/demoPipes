@@ -1,5 +1,5 @@
 resources:
-###################### NATIVE WAR CI/CD RESOURCES #########################
+################################ NATIVE WAR ################################
 # JFROG WAR reference
   - name: demo_war
     type: file
@@ -8,52 +8,39 @@ resources:
       sourceName: "builds/HelloWorld.war"
     seed:
       versionName: initial
-#
-## VM Cluster
-#  - name: demo_war_test_cls
-#    type: cluster
-#    integration: "demo-vm-cluster"
-#
-## Parameters to Run WAR
-#  - name: demo_war_params
-#    type: params
-#    version:
-#      params:
-#        ENVIRONMENT: "FOO"
-#
-########################## AUTOMATION AS CODE REPO #########################
-## REPO for all automation
-#  - name: auto_repo
-#    type: gitRepo
-#    integration: "demo-gh"
-#    pointer:
-#      sourceName: "avinci/demoPipes"
-#      branch: master
-#
-#
-########################## INFRA AUTOMATION RESOURCES #########################
-## AWS credentials
-#  - name: aws_creds
-#    type: integration
-#    integration: "demo-aws-key"
-#
-## Parameters to provision AMI Builder
-#  - name: bldami_params
-#    type: params
-#    version:
-#      params:
-#        SOURCE_AMI: "ami-c8580bdf" #ecs optimized AMI
-#        VPC_ID: "vpc-1032db76"
-#        SUBNET_ID: "subnet-1c0cda20"
-#        SECURITY_GROUP_ID: "sg-d1c671ac"
-#        REGION: "us-east-1"
-#
-## AWS pem key
-#  - name: aws_pem
-#    type: integration
-#    integration: "demo-aws-pem"
 
-######################### DOCKER Based WAR CI/CD RESOURCES #######################
+########################## AUTOMATION AS CODE REPO #########################
+# REPO for all automation
+  - name: auto_repo
+    type: gitRepo
+    integration: "demo-gh"
+    pointer:
+      sourceName: "avinci/demoPipes"
+      branch: master
+
+########################## INFRA AUTOMATION RESOURCES #########################
+# AWS credentials
+  - name: aws_creds
+    type: integration
+    integration: "demo-aws-key"
+
+# Parameters to provision AMI Builder
+  - name: bldami_params
+    type: params
+    version:
+      params:
+        SOURCE_AMI: "ami-c8580bdf" #ecs optimized AMI
+        VPC_ID: "vpc-1032db76"
+        SUBNET_ID: "subnet-1c0cda20"
+        SECURITY_GROUP_ID: "sg-d1c671ac"
+        REGION: "us-east-1"
+
+# AWS pem key
+  - name: aws_pem
+    type: integration
+    integration: "demo-aws-pem"
+
+###################### DOCKER Based WAR CI/CD RESOURCES #######################
 ## Docker credentials
 #  - name: docker_creds
 #    type: integration
@@ -123,3 +110,16 @@ resources:
 #      params:
 #        API_URL: "54.158.18.50:8080"
 #        API_TOKEN: "NA"
+
+###################### NATIVE WAR CI/CD RESOURCES #########################
+## VM Cluster
+#  - name: demo_war_test_cls
+#    type: cluster
+#    integration: "demo-vm-cluster"
+#
+## Parameters to Run WAR
+#  - name: demo_war_params
+#    type: params
+#    version:
+#      params:
+#        ENVIRONMENT: "FOO"
