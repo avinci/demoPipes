@@ -3,44 +3,39 @@
 export TF_INSALL_LOCATION=/opt
 export TF_VERSION=0.8.6
 
-export CURR_JOB_CONTEXT=$1
+export CURR_JOB=$1
 
-export REPO_RES="auto_repo"
-export AWS_CREDS_RES="aws_creds"
-export AWS_PEM_RES="aws_pem"
+export RES_REPO="auto_repo"
+export RES_AWS_CREDS="aws_creds"
+export RES_AWS_PEM="aws_pem"
 
 export PREV_TF_STATEFILE="$JOB_PREVIOUS_STATE/terraform.tfstate"
 
-export REPO_RES_UP=$(echo $REPO_RES | awk '{print toupper($0)}')
-export REPO_RES_STATE=$(eval echo "$"$REPO_RES_UP"_STATE") #loc of git repo clone
-export REPO_RES_CONTEXT="$REPO_RES_STATE/$CURR_JOB_CONTEXT"
+export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
+export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE") #loc of git repo clone
+export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB"
 
-export AWS_CREDS_RES_UP=$(echo $AWS_CREDS_RES | awk '{print toupper($0)}')
-export AWS_CREDS_RES_META=$(eval echo "$"$AWS_CREDS_RES_UP"_META") #loc of integration.json
+export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
+export RES_AWS_CREDS_META=$(eval echo "$"$RES_AWS_CREDS_UP"_META") #loc of integration.json
 
-export AWS_PEM_RES_UP=$(echo $AWS_PEM_RES | awk '{print toupper($0)}')
-export AWS_PEM_RES_META=$(eval echo "$"$AWS_PEM_RES_UP"_META") #loc of integration.json
+export RES_AWS_PEM_UP=$(echo $RES_AWS_PEM | awk '{print toupper($0)}')
+export RES_AWS_PEM_META=$(eval echo "$"$RES_AWS_PEM_UP"_META") #loc of integration.json
 
-test_env_info() {
-  echo "Testing all environment variables that are critical"
 
-  echo "########### CURR_JOB_CONTEXT: $CURR_JOB_CONTEXT"
-  echo "########### PREV_TF_STATEFILE: $PREV_TF_STATEFILE"
+set_context(){
+  echo "CURR_JOB=$CURR_JOB"
+  echo "RES_REPO=$RES_REPO"
+  echo "RES_AWS_CREDS=$RES_AWS_CREDS"
+  echo "RES_AWS_PEM=$RES_AWS_PEM"
 
-  echo "########### REPO_RES: $REPO_RES"
-  echo "########### REPO_RES_UP: $REPO_RES_UP"
-  echo "########### REPO_RES_STATE: $REPO_RES_STATE"
-  echo "########### REPO_RES_CONTEXT: $REPO_RES_CONTEXT"
+  echo "RES_REPO_UP=$RES_REPO_UP"
+  echo "RES_REPO_STATE=$RES_REPO_STATE"
+  echo "RES_REPO_CONTEXT=$RES_REPO_CONTEXT"
 
-  echo "########### AWS_CREDS_RES: $AWS_CREDS_RES"
-  echo "########### AWS_CREDS_RES_UP: $AWS_CREDS_RES_UP"
-  echo "########### AWS_CREDS_RES_META: $AWS_CREDS_RES_META"
-
-  echo "########### AWS_PEM_RES: $AWS_PEM_RES"
-  echo "########### AWS_PEM_RES_UP: $AWS_PEM_RES_UP"
-  echo "########### AWS_PEM_RES_META: $AWS_PEM_RES_META"
-
-  echo "successfully loaded node information"
+  echo "RES_AWS_CREDS_UP=$RES_AWS_CREDS_UP"
+  echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
+  echo "RES_AWS_PEM_UP=$RES_AWS_PEM_UP"
+  echo "RES_AWS_PEM_META=$RES_AWS_PEM_META"
 }
 
 install_terraform() {
@@ -69,7 +64,7 @@ get_statefile() {
   if [ -f "$PREV_TF_STATEFILE" ]; then
     echo "Statefile exists, copying"
     echo "-----------------------------------"
-    cp -vr $PREV_TF_STATEFILE $REPO_RES_CONTEXT
+    cp -vr $PREV_TF_STATEFILE $RES_REPO_CONTEXT
   else
     echo "No previous statefile exists"
     echo "-----------------------------------"
@@ -79,24 +74,24 @@ get_statefile() {
 create_pemfile() {
  echo "Extracting AWS PEM"
  echo "-----------------------------------"
- cat "$AWS_PEM_RES_META/integration.json"  | jq -r '.key' > "$REPO_RES_CONTEXT/demo-key.pem"
- chmod 600 "$REPO_RES_CONTEXT/demo-key.pem"
+ cat "$RES_AWS_PEM_META/integration.json"  | jq -r '.key' > "$RES_REPO_CONTEXT/demo-key.pem"
+ chmod 600 "$RES_REPO_CONTEXT/demo-key.pem"
  echo "Completed Extracting AWS PEM"
  echo "-----------------------------------"
 }
 
 destroy_changes() {
-  pushd $REPO_RES_CONTEXT
+  pushd $RES_REPO_CONTEXT
   echo "-----------------------------------"
 
   echo "Destroy changes"
   echo "-----------------------------------"
-  terraform destroy -force -var-file="$AWS_CREDS_RES_META/integration.env"
+  terraform destroy -force -var-file="$RES_AWS_CREDS_META/integration.env"
   popd
 }
 
 apply_changes() {
-  pushd $REPO_RES_CONTEXT
+  pushd $RES_REPO_CONTEXT
 
   echo "Testing SSH"
   echo "-----------------------------------"
@@ -105,18 +100,18 @@ apply_changes() {
 
   echo "Planning changes"
   echo "-----------------------------------"
-  terraform plan -var-file="$AWS_CREDS_RES_META/integration.env"
+  terraform plan -var-file="$RES_AWS_CREDS_META/integration.env"
 
   echo "Apply changes"
   echo "-----------------------------------"
-  terraform apply -var-file="$AWS_CREDS_RES_META/integration.env"
+  terraform apply -var-file="$RES_AWS_CREDS_META/integration.env"
 
   popd
 }
 
 main() {
   eval `ssh-agent -s`
-  test_env_info
+  set_context
   install_terraform
   get_statefile
   create_pemfile
