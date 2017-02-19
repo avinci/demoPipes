@@ -44,6 +44,7 @@ set_context(){
   echo "RES_REPO=$RES_REPO"
 
   echo "CURR_JOB_STATE=$CURR_JOB_STATE"
+  echo "JOB_STATE=$JOB_STATE"
   echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
   echo "RES_PARAMS_STR=$RES_PARAMS_STR"
   echo "RES_REPO_STATE=$RES_REPO_STATE"
@@ -96,7 +97,7 @@ build_ami() {
 
     #this is to get the ami from output
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/$CURR_JOB.env
+    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
 
   popd
 }
