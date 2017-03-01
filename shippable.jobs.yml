@@ -97,6 +97,7 @@ jobs:
     steps:
       - IN: demo_doc_img
       - IN: doc_img_opts
+      - IN: def_ver_param
 
 ## deploy job that deploys native war to TEST ECS Cluster
   - name: demo_doc_test
@@ -115,6 +116,7 @@ jobs:
       - IN: prod_infra_prov
         switch: off
       - IN: doc_p_scaler
+      - IN: prod_ver_param
       - IN: sit
       - IN: env_prod_aws
       - TASK: managed
@@ -128,12 +130,32 @@ jobs:
       - IN: demo_doc_test
       - IN: sit_params
       - TASK:
-        - script: sudo apt-get install -y jq
         - script: IN/sit_repo/gitRepo/test.sh sit_params
     on_success:
       - script: touch /build/state/success.txt
     on_failure:
       - script: touch /build/state/failure.txt
+
+######################### RELEASE STEPS #########################
+# job to run SIT testing
+  - name: prod_rel
+    type: release
+    steps:
+      - IN: demo_ver
+      - TASK: managed
+        bump: patch
+
+# job manipulate prod version param
+  - name: set_prod_ver_param
+    type: runSh
+    steps:
+      - IN: auto_repo
+        switch: off
+      - IN: prod_rel
+      - OUT: prod_ver_param
+      - TASK:
+        - script: IN/sit_repo/gitRepo/setVer.sh prod_rel prod_ver_param
+
 
 ######################### NATIVE WAR CI/CD JOBS #########################
 ## manifest that defines the Native WAR service definition

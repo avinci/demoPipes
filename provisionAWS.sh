@@ -1,8 +1,5 @@
 #!/bin/bash -e
 
-export TF_INSALL_LOCATION=/opt
-export TF_VERSION=0.8.6
-
 export CURR_JOB=$1
 
 export RES_REPO="auto_repo"
@@ -36,26 +33,6 @@ set_context(){
   echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
   echo "RES_AWS_PEM_UP=$RES_AWS_PEM_UP"
   echo "RES_AWS_PEM_META=$RES_AWS_PEM_META"
-}
-
-install_terraform() {
-  pushd $TF_INSALL_LOCATION
-  echo "Fetching terraform"
-  echo "-----------------------------------"
-
-  rm -rf $TF_INSALL_LOCATION/terraform
-  mkdir -p $TF_INSALL_LOCATION/terraform
-
-  wget -q https://releases.hashicorp.com/terraform/$TF_VERSION/terraform_"$TF_VERSION"_linux_386.zip
-  apt-get install unzip
-  unzip -o terraform_"$TF_VERSION"_linux_386.zip -d $TF_INSALL_LOCATION/terraform
-  export PATH=$PATH:$TF_INSALL_LOCATION/terraform
-  echo "downloaded terraform successfully"
-  echo "-----------------------------------"
-  
-  local tf_version=$(terraform version)
-  echo "Terraform version: $tf_version"
-  popd
 }
 
 get_statefile() {
@@ -111,8 +88,9 @@ apply_changes() {
 
 main() {
   eval `ssh-agent -s`
+  which ssh-agent
+
   set_context
-  install_terraform
   get_statefile
   create_pemfile
   #destroy_changes
