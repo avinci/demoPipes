@@ -154,8 +154,7 @@ jobs:
       - IN: prod_rel
       - OUT: prod_ver_param
       - TASK:
-        - script: IN/sit_repo/gitRepo/setVer.sh prod_rel prod_ver_param
-
+        - script: IN/auto_repo/gitRepo/setVer.sh prod_rel prod_ver_param
 
 ######################### NATIVE WAR CI/CD JOBS #########################
 ## manifest that defines the Native WAR service definition
