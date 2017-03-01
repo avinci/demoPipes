@@ -117,6 +117,7 @@ jobs:
         switch: off
       - IN: doc_p_scaler
       - IN: prod_ver_param
+      - IN: demo_doc_test
 #      - IN: sit
       - IN: env_prod_aws
       - TASK: managed
