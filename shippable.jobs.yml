@@ -91,23 +91,23 @@ jobs:
     on_failure:
       - script: echo "FAILED"
 
-#  manifest that defines the DOCKER WAR service definition
-  - name: demo_doc_man
-    type: manifest
-    steps:
-      - IN: demo_doc_img
-      - IN: doc_img_opts
-      - IN: def_ver_param
+##  manifest that defines the DOCKER WAR service definition
+#  - name: demo_doc_man
+#    type: manifest
+#    steps:
+#      - IN: demo_doc_img
+#      - IN: doc_img_opts
+#      - IN: def_ver_param
 
-## deploy job that deploys native war to TEST ECS Cluster
-  - name: demo_doc_test
-    type: deploy
-    steps:
-      - IN: demo_doc_man
-      - IN: env_test_aws
-      - IN: test_infra_prov
-        switch: off
-      - TASK: managed
+### deploy job that deploys native war to TEST ECS Cluster
+#  - name: demo_doc_test
+#    type: deploy
+#    steps:
+#      - IN: demo_doc_man
+#      - IN: env_test_aws
+#      - IN: test_infra_prov
+#        switch: off
+#      - TASK: managed
 #
 ## deploy job that deploys native war to PROD ECS Cluster
 #  - name: demo_doc_prod
