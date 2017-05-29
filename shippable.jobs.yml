@@ -128,6 +128,7 @@ jobs:
     type: release
     steps:
       - IN: demo_ver
+      - IN: sit
       - TASK: managed
         bump: patch
 
