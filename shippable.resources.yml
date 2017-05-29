@@ -70,23 +70,22 @@ resources:
       sourceName : "test-aws"
       region: "us-east-1"
 
-################################ TEST AUTO RESOURCES #########################
-## REPO of SIT code
-#  - name: sit_repo
-#    type: gitRepo
-#    integration: "demo-gh"
-#    pointer:
-#      sourceName: "avinci/demoSIT"
-#      branch: master
-#
-## SIT env vars for BOX
-#  - name: sit_params
-#    type: params
-#    version:
-#      params:
-#        API_URL: "54.158.18.50:8080"
-#        API_TOKEN: "NA"
+############################### TEST AUTO RESOURCES #########################
+# REPO of SIT code
+  - name: sit_repo
+    type: gitRepo
+    integration: "demo-gh"
+    pointer:
+      sourceName: "avinci/demoSIT"
+      branch: master
 
+# SIT env vars for BOX
+  - name: sit_params
+    type: params
+    version:
+      params:
+        API_URL: "54.158.18.50:8080"
+        API_TOKEN: "NA"
 
 ############################## RELEASE AUTO RESOURCES #########################
 ## version resource
