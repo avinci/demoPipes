@@ -143,19 +143,21 @@ jobs:
       - TASK:
         - script: IN/auto_repo/gitRepo/setVer.sh prod_rel prod_ver_param
 
-################################# CD AUTO JOBS ################################
-## deploy job that deploys native war to PROD ECS Cluster
-#  - name: demo_doc_prod
-#    type: deploy
-#    steps:
-#      - IN: prod_infra_prov
-#        switch: off
-#      - IN: doc_p_scaler
-#      - IN: prod_ver_param
-#      - IN: demo_doc_test
-#      - IN: sit
-#      - IN: env_prod_aws
-#      - TASK: managed
+################################ CD AUTO JOBS ################################
+# deploy job that deploys native war to PROD ECS Cluster
+  - name: demo_doc_prod
+    type: deploy
+    steps:
+      - IN: prod_infra_prov
+        switch: off
+      - IN: doc_p_scaler
+      - IN: prod_ver_param
+        switch: off
+      - IN: demo_doc_test
+        switch: off
+      - IN: env_prod_aws
+      - TASK: managed
+
 
 
 
