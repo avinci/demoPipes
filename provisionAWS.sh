@@ -92,9 +92,9 @@ main() {
 
   set_context
   get_statefile
-  #create_pemfile
+  create_pemfile
   destroy_changes
-  apply_changes
+  #apply_changes
 }
 
 main
