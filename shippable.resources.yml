@@ -1,4 +1,15 @@
 resources:
+################################# NATIVE WAR ################################
+## JFROG WAR reference
+#  - name: demo_war
+#    type: file
+#    integration: "demo-jf"
+#    pointer:
+#      sourceName: "builds/HelloWorld.war"
+#    seed:
+#      versionName: initial
+#
+
 ################################# VERSIONING ################################
 ## version resource
 #  - name: demo_ver
@@ -12,16 +23,6 @@ resources:
 #    version:
 #      params:
 #        RELEASE_VER_NUMBER: "1.0.0"
-#
-################################# NATIVE WAR ################################
-## JFROG WAR reference
-#  - name: demo_war
-#    type: file
-#    integration: "demo-jf"
-#    pointer:
-#      sourceName: "builds/HelloWorld.war"
-#    seed:
-#      versionName: initial
 #
 ########################### AUTOMATION AS CODE REPO #########################
 ## REPO for all automation
@@ -54,36 +55,36 @@ resources:
 #    type: integration
 #    integration: "demo-aws-pem"
 #
-####################### DOCKER Based WAR CI/CD RESOURCES #######################
-## Docker credentials
-#  - name: docker_creds
-#    type: integration
-#    integration: "demo-dh"
-#
-## Source code for sample WAR app
-#  - name: demo_doc_repo
-#    type: gitRepo
-#    integration: "demo-gh"
-#    pointer:
-#      sourceName: "avinci/samplejavatomcat"
-#      branch: docker
-#
-## Default Version Param
-#  - name: def_ver_param
-#    type: params
-#    version:
-#      params:
-#        RELEASE_VER_NUMBER: "latest"
-#
-## Docker Image packaging sample WAR
-#  - name: demo_doc_img
-#    type: image
-#    integration: "demo-dh"
-#    pointer:
-#      sourceName: "avinci/samplejavatomcat"
-#    seed:
-#      versionName: "latest"
-#
+###################### DOCKER Based WAR CI/CD RESOURCES #######################
+# Docker credentials
+  - name: docker_creds
+    type: integration
+    integration: "demo-dh"
+
+# Source code for sample WAR app
+  - name: demo_doc_repo
+    type: gitRepo
+    integration: "demo-gh"
+    pointer:
+      sourceName: "avinci/samplejavatomcat"
+      branch: docker
+
+# Default Version Param
+  - name: def_ver_param
+    type: params
+    version:
+      params:
+        RELEASE_VER_NUMBER: "latest"
+
+# Docker Image packaging sample WAR
+  - name: demo_doc_img
+    type: image
+    integration: "demo-dh"
+    pointer:
+      sourceName: "avinci/samplejavatomcat"
+    seed:
+      versionName: "latest"
+
 ## Docker Options for packaged WAR
 #  - name: doc_img_opts
 #    type: dockerOptions
