@@ -74,7 +74,7 @@ jobs:
     always:
       - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
-######################## DOCKER Based WAR CI/CD JOBS #######################
+######################## DOCKER Based WAR CI AUTO JOBS #######################
 # package sample WAR into docker container
   - name: build_doc_war
     type: runCLI
@@ -107,20 +107,7 @@ jobs:
         switch: off
       - TASK: managed
 
-# deploy job that deploys native war to PROD ECS Cluster
-  - name: demo_doc_prod
-    type: deploy
-    steps:
-      - IN: prod_infra_prov
-        switch: off
-      - IN: doc_p_scaler
-      - IN: prod_ver_param
-      - IN: demo_doc_test
-#      - IN: sit
-      - IN: env_prod_aws
-      - TASK: managed
-
-########################## WAR SIT JOBS #########################
+############################## TEST AUTO JOBS ##############################
 ## job to run SIT testing
 #  - name: sit
 #    type: runSh
@@ -135,7 +122,7 @@ jobs:
 #    on_failure:
 #      - script: touch /build/state/failure.txt
 
-######################### RELEASE STEPS #########################
+############################# RELEASE AUTO JOBS #############################
 ## job to create a production release
 #  - name: prod_rel
 #    type: release
@@ -154,6 +141,26 @@ jobs:
 #      - OUT: prod_ver_param
 #      - TASK:
 #        - script: IN/auto_repo/gitRepo/setVer.sh prod_rel prod_ver_param
+
+################################# CD AUTO JOBS ################################
+## deploy job that deploys native war to PROD ECS Cluster
+#  - name: demo_doc_prod
+#    type: deploy
+#    steps:
+#      - IN: prod_infra_prov
+#        switch: off
+#      - IN: doc_p_scaler
+#      - IN: prod_ver_param
+#      - IN: demo_doc_test
+#      - IN: sit
+#      - IN: env_prod_aws
+#      - TASK: managed
+
+
+
+
+
+
 
 ######################### NATIVE WAR CI/CD JOBS #########################
 ## manifest that defines the Native WAR service definition
