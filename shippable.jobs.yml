@@ -107,21 +107,21 @@ jobs:
         switch: off
       - TASK: managed
 
-############################## TEST AUTO JOBS ##############################
-## job to run SIT testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: demo_doc_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
-#
+############################# TEST AUTO JOBS ##############################
+# job to run SIT testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: demo_doc_test
+      - IN: sit_params
+      - TASK:
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
+
 ############################# RELEASE AUTO JOBS #############################
 ## job to create a production release
 #  - name: prod_rel
