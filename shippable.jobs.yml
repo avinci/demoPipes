@@ -5,6 +5,7 @@ jobs:
     type: runSh
     steps:
       - IN: test_creds
+      - IN: auto_repo
       - TASK:
         - script: IN/auto_repo/gitRepo/test.sh
     on_success:
