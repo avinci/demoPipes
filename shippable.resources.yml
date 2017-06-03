@@ -14,6 +14,10 @@ resources:
     type: integration
     integration: "demo_aws_key"
 
+  - name: aws_creds1
+    type: integration
+    integration: "demo_aws_key"
+
 # AWS test credentials
   - name: test_creds
     type: integration

@@ -15,7 +15,7 @@ jobs:
   - name: build_ami
     type: runSh
     steps:
-      - IN: aws_creds
+      - IN: aws_creds1
       - IN: auto_repo
         switch: off
       - IN: bldami_params

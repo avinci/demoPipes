@@ -2,7 +2,7 @@
 set -o pipefail
 
 export CURR_JOB="build_baseami"
-export RES_AWS_CREDS="aws_creds"
+export RES_AWS_CREDS="aws_creds1"
 export RES_PARAMS="bldami_params"
 export RES_REPO="auto_repo"
 
