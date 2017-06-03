@@ -1,6 +1,17 @@
 jobs:
 ############################ INFRA AUTOMATION JOBS #########################
 # job to create AWS AMI used to deploy VMs
+  - name: test
+    type: runSh
+    steps:
+      - IN: test_creds
+      - TASK:
+        - script: printenv
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "Fail"
+
   - name: build_ami
     type: runSh
     steps:
