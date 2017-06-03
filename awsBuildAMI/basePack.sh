@@ -34,6 +34,9 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
+
+  echo RES_AWS_CREDS_VERSIONID=$(eval echo "$"$RES_AWS_CREDS_UP"_VERSIONID")
+
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
