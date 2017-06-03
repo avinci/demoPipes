@@ -3,7 +3,7 @@
 export CURR_JOB=$1
 
 export RES_REPO="auto_repo"
-export RES_AWS_CREDS="aws_creds"
+export RES_AWS_CREDS="aws_creds1"
 export RES_AWS_PEM="aws_pem"
 
 export PREV_TF_STATEFILE="$JOB_PREVIOUS_STATE/terraform.tfstate"
@@ -30,7 +30,8 @@ set_context(){
   echo "RES_REPO_CONTEXT=$RES_REPO_CONTEXT"
 
   echo "RES_AWS_CREDS_UP=$RES_AWS_CREDS_UP"
-  echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
+  echo "RES_AWS_CREDS_META=$RES_AWS_CREDS_META"
+
   echo "RES_AWS_PEM_UP=$RES_AWS_PEM_UP"
   echo "RES_AWS_PEM_META=$RES_AWS_PEM_META"
 }
