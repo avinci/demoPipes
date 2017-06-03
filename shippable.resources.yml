@@ -10,10 +10,6 @@ resources:
       branch: master
 
 # AWS credentials
-  - name: aws_creds
-    type: integration
-    integration: "demo_aws_key"
-
   - name: aws_creds1
     type: integration
     integration: "demo_aws_key"
