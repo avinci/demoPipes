@@ -6,7 +6,7 @@ jobs:
     steps:
       - IN: test_creds
       - TASK:
-        - script: printenv
+        - script: IN/auto_repo/gitRepo/test.sh
     on_success:
       - script: echo "SUCCESS"
     on_failure:
