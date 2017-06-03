@@ -1,7 +1,7 @@
 jobs:
 ############################ INFRA AUTOMATION JOBS #########################
 # job to create AWS AMI used to deploy VMs
-  - name: build_ami
+  - name: test
     type: runSh
     steps:
       - IN: bldami_params
