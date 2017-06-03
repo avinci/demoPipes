@@ -4,9 +4,9 @@ jobs:
   - name: test
     type: runSh
     steps:
-      - IN: bldami_params
+      - IN: test_creds
       - TASK:
-        - script: ls -al
+        - script: printenv
     on_success:
       - script: echo "SUCCESS"
     on_failure:
