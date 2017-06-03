@@ -14,11 +14,6 @@ resources:
     type: integration
     integration: "demo_aws_key"
 
-# AWS test credentials
-  - name: test_creds
-    type: integration
-    integration: "test_aws"
-
 # Parameters to provision AMI Builder
   - name: bldami_params
     type: params

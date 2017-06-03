@@ -34,9 +34,6 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
-
-  echo RES_AWS_CREDS_VERSIONID=$(eval echo "$"$RES_AWS_CREDS_UP"_VERSIONID")
-
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
@@ -65,8 +62,8 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  packer build -machine-readable -var aws_access_key=$aws_access_key_id \
-    -var aws_secret_key=$aws_secret_access_key \
+  packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
