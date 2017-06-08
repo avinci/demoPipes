@@ -30,29 +30,29 @@ resources:
     type: integration
     integration: "demo_aws_pem"
 
-####################### DOCKER Based WAR CI AUTO RESOURCES #######################
-## Docker credentials
-#  - name: docker_creds
-#    type: integration
-#    integration: "demo_dh"
-#
-## Source code for sample WAR app
-#  - name: demo_doc_repo
-#    type: gitRepo
-#    integration: "demo_gh"
-#    pointer:
-#      sourceName: "avinci/samplejavatomcat"
-#      branch: docker
-#
-## Docker Image packaging sample WAR
-#  - name: demo_doc_img
-#    type: image
-#    integration: "demo_dh"
-#    pointer:
-#      sourceName: "avinci/samplejavatomcat"
-#    seed:
-#      versionName: "latest"
-#
+###################### DOCKER Based WAR CI AUTO RESOURCES #######################
+# Docker credentials
+  - name: docker_creds
+    type: integration
+    integration: "demo_dh"
+
+# Source code for sample WAR app
+  - name: demo_doc_repo
+    type: gitRepo
+    integration: "demo_gh"
+    pointer:
+      sourceName: "avinci/samplejavatomcat"
+      branch: docker
+
+# Docker Image packaging sample WAR
+  - name: demo_doc_img
+    type: image
+    integration: "demo_dh"
+    pointer:
+      sourceName: "avinci/samplejavatomcat"
+    seed:
+      versionName: "latest"
+
 ## Docker Options for packaged WAR
 #  - name: doc_img_opts
 #    type: dockerOptions
