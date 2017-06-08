@@ -53,23 +53,23 @@ resources:
     seed:
       versionName: "latest"
 
-## Docker Options for packaged WAR
-#  - name: doc_img_opts
-#    type: dockerOptions
-#    version:
-#      memory: 256
-#      cpuShares: 256
-#      portMappings:
-#        - 8080:8080
-#
-## Reference to ECS Test Cluster
-#  - name: env_test_aws
-#    type: cluster
-#    integration: "demo_aws_key"
-#    pointer:
-#      sourceName : "test-aws"
-#      region: "us-east-1"
-#
+# Docker Options for packaged WAR
+  - name: doc_img_opts
+    type: dockerOptions
+    version:
+      memory: 256
+      cpuShares: 256
+      portMappings:
+        - 8080:8080
+
+# Reference to ECS Test Cluster
+  - name: env_test_aws
+    type: cluster
+    integration: "demo_aws_key"
+    pointer:
+      sourceName : "test-aws"
+      region: "us-east-1"
+
 ################################ TEST AUTO RESOURCES #########################
 ## REPO of SIT code
 #  - name: sit_repo
