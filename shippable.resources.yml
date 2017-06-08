@@ -101,20 +101,20 @@ resources:
       params:
         RELEASE_VER_NUMBER: "1.0.0"
 
-############################ CD AUTO RESOURCES ################################
-## Reference to ECS PROD Cluster
-#  - name: env_prod_aws
-#    type: cluster
-#    integration: "demo_aws_key"
-#    pointer:
-#      sourceName : "prod-aws"
-#      region: "us-east-1"
-#
-## Number of packaged WARs to deploy to Prod
-#  - name: doc_p_scaler
-#    type: replicas
-#    version:
-#      count: 2
+########################### CD AUTO RESOURCES ################################
+# Reference to ECS PROD Cluster
+  - name: env_prod_aws
+    type: cluster
+    integration: "demo_aws_key"
+    pointer:
+      sourceName : "prod-aws"
+      region: "us-east-1"
+
+# Number of packaged WARs to deploy to Prod
+  - name: doc_p_scaler
+    type: replicas
+    version:
+      count: 2
 
 
 
