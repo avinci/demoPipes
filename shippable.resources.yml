@@ -114,7 +114,7 @@ resources:
   - name: doc_p_scaler
     type: replicas
     version:
-      count: 2
+      count: 1
 
 
 
