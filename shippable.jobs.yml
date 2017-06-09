@@ -1,38 +1,38 @@
 jobs:
-########################### INFRA AUTOMATION JOBS #########################
-# job to create AWS AMI used to deploy VMs
-  - name: build_ami
-    type: runSh
-    steps:
-      - IN: aws_creds1
-      - IN: auto_repo
-        switch: off
-      - IN: bldami_params
-      - TASK:
-        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
-
-# job to setup AWS IAM roles, profiles etc.
-  - name: aws_infra_setup
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: build_ami
-        switch: off
-      - IN: aws_creds1
-      - IN: auto_repo
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
+############################ INFRA AUTOMATION JOBS #########################
+## job to create AWS AMI used to deploy VMs
+#  - name: build_ami
+#    type: runSh
+#    steps:
+#      - IN: aws_creds1
+#      - IN: auto_repo
+#        switch: off
+#      - IN: bldami_params
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
+#
+## job to setup AWS IAM roles, profiles etc.
+#  - name: aws_infra_setup
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: build_ami
+#        switch: off
+#      - IN: aws_creds1
+#      - IN: auto_repo
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 
 ## job to provision TEST VMs and ECS cluster
 #  - name: test_infra_prov
