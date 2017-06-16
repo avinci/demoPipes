@@ -20,6 +20,11 @@ resources:
       params:
         SEED: "initial_version"
 
+# AWS pem key
+  - name: aws_pem
+    type: integration
+    integration: "demo_aws_pem"
+
 ## Parameters to provision AMI Builder
 #  - name: network_params
 #    type: params
@@ -31,10 +36,7 @@ resources:
 #        REGION: "us-east-1"
 #
 
-## AWS pem key
-#  - name: aws_pem
-#    type: integration
-#    integration: "demo_aws_pem"
+
 
 ####################### DOCKER Based WAR CI AUTO RESOURCES #######################
 ## Docker credentials
