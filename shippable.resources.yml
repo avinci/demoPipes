@@ -1,52 +1,52 @@
 resources:
-########################## INFRA AUTOMATION RESOURCES #########################
-# REPO for all automation
-  - name: auto_repo
-    type: gitRepo
-    integration: "demo_gh"
-    pointer:
-      sourceName: "avinci/demoPipes"
-      branch: master
-
-# AWS credentials
-  - name: aws_creds
-    type: integration
-    integration: "demo_aws_key"
-
-# Parameters to hold VPC settings
-  - name: network_params
-    type: params
-    version:
-      params:
-        SEED: "initial_version"
-
-# AWS pem key
-  - name: aws_pem
-    type: integration
-    integration: "demo_aws_pem"
-
-# Parameters to hold VPC settings
-  - name: ami_params
-    type: params
-    version:
-      params:
-        SEED: "initial_version"
-
-# Reference to ECS Test Cluster
-  - name: env_test_aws
-    type: cluster
-    integration: "demo_aws_key"
-    pointer:
-      sourceName : "test-aws"
-      region: "us-east-1"
-
-# Reference to ECS PROD Cluster
-  - name: env_prod_aws
-    type: cluster
-    integration: "demo_aws_key"
-    pointer:
-      sourceName : "prod-aws"
-      region: "us-east-1"
+########################### INFRA AUTOMATION RESOURCES #########################
+## REPO for all automation
+#  - name: auto_repo
+#    type: gitRepo
+#    integration: "demo_gh"
+#    pointer:
+#      sourceName: "avinci/demoPipes"
+#      branch: master
+#
+## AWS credentials
+#  - name: aws_creds
+#    type: integration
+#    integration: "demo_aws_key"
+#
+## Parameters to hold VPC settings
+#  - name: network_params
+#    type: params
+#    version:
+#      params:
+#        SEED: "initial_version"
+#
+## AWS pem key
+#  - name: aws_pem
+#    type: integration
+#    integration: "demo_aws_pem"
+#
+## Parameters to hold VPC settings
+#  - name: ami_params
+#    type: params
+#    version:
+#      params:
+#        SEED: "initial_version"
+#
+## Reference to ECS Test Cluster
+#  - name: env_test_aws
+#    type: cluster
+#    integration: "demo_aws_key"
+#    pointer:
+#      sourceName : "test-aws"
+#      region: "us-east-1"
+#
+## Reference to ECS PROD Cluster
+#  - name: env_prod_aws
+#    type: cluster
+#    integration: "demo_aws_key"
+#    pointer:
+#      sourceName : "prod-aws"
+#      region: "us-east-1"
 
 ####################### DOCKER Based WAR CI AUTO RESOURCES #######################
 ## Docker credentials

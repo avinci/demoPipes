@@ -1,23 +1,23 @@
 jobs:
-########################### INFRA AUTOMATION JOBS #########################
-# job to setup AWS IAM roles, profiles etc.
-  - name: aws_infra_setup
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-        - script: IN/auto_repo/gitRepo/outputNetwork.sh
-      - OUT: network_params
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
+############################ INFRA AUTOMATION JOBS #########################
+## job to setup AWS IAM roles, profiles etc.
+#  - name: aws_infra_setup
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
+#        - script: IN/auto_repo/gitRepo/outputNetwork.sh
+#      - OUT: network_params
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 #
 ## job to create AWS AMI used to deploy VMs
 #  - name: build_ami
