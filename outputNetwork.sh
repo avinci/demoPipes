@@ -19,6 +19,7 @@ set_network_params(){
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
 
+  echo "versionName=$VPC_ID" >> "$JOB_STATE/$RES_NET_PARAMS.env"
   echo "VPC_ID=$VPC_ID" >> "$JOB_STATE/$RES_NET_PARAMS.env"
   echo "SUBNET_ID=$SUBNET_ID" >> "$JOB_STATE/$RES_NET_PARAMS.env"
   echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> "$JOB_STATE/$RES_NET_PARAMS.env"
