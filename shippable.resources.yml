@@ -124,8 +124,6 @@ resources:
 
 
 
-
-
 ###################### NATIVE WAR CI/CD RESOURCES #########################
 ## VM Cluster
 #  - name: demo_war_test_cls
