@@ -2,8 +2,8 @@
 set -o pipefail
 
 export CURR_JOB="build_baseami"
-export RES_AWS_CREDS="aws_creds1"
-export RES_PARAMS="bldami_params"
+export RES_AWS_CREDS="aws_creds"
+export RES_PARAMS="network_params"
 export RES_REPO="auto_repo"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
@@ -28,7 +28,7 @@ set_context(){
   export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
   export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
   export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
-  export SOURCE_AMI=$(eval echo "$"$RES_PARAMS_STR"_SOURCE_AMI")
+  export SOURCE_AMI="ami-c8580bdf"
 
   # now get the AWS keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
