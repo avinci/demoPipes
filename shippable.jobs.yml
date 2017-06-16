@@ -1,166 +1,166 @@
 jobs:
-############################ INFRA AUTOMATION JOBS #########################
-## job to setup AWS IAM roles, profiles etc.
-#  - name: aws_infra_setup
-#    type: runSh
-#    steps:
-#      - IN: aws_pem
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-#        - script: IN/auto_repo/gitRepo/outputNetwork.sh
-#      - OUT: network_params
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
-#
-## job to create AWS AMI used to deploy VMs
-#  - name: build_ami
-#    type: runSh
-#    steps:
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - IN: network_params
-#        switch: off
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-#      - OUT: ami_params
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
-#
-## job to provision TEST VMs and ECS cluster
-#  - name: test_infra_prov
-#    type: runSh
-#    steps:
-#      - IN: aws_pem
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_params
-#        switch: off
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
-#      - OUT: env_test_aws
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
-#
-## job to provision PROD VMs and ECS cluster
-#  - name: prod_infra_prov
-#    type: runSh
-#    steps:
-#      - IN: aws_pem
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_params
-#        switch: off
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
-#      - OUT: env_prod_aws
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
+########################### INFRA AUTOMATION JOBS #########################
+# job to setup AWS IAM roles, profiles etc.
+  - name: setup_aws_net
+    type: runSh
+    steps:
+      - IN: aws_pem
+      - IN: aws_creds
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
+        - script: IN/auto_repo/gitRepo/outputNetwork.sh
+      - OUT: network_params
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 
-######################### DOCKER Based WAR CI AUTO JOBS #######################
-## package sample WAR into docker container
-#  - name: build_doc_war
-#    type: runCLI
-#    steps:
-#      - IN: docker_creds
-#      - IN: demo_doc_repo
-#      - TASK:
-#        - script: IN/demo_doc_repo/gitRepo/build.sh
-#      - OUT: demo_doc_img
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILED"
-#
-##  manifest that defines the DOCKER WAR service definition
-#  - name: demo_doc_man
-#    type: manifest
-#    steps:
-#      - IN: demo_doc_img
-#      - IN: doc_img_opts
-##      - IN: def_ver_param
-#
-### deploy job that deploys native war to TEST ECS Cluster
-#  - name: demo_doc_test
-#    type: deploy
-#    steps:
-#      - IN: demo_doc_man
-#      - IN: env_test_aws
-#        switch: off
-#      - TASK: managed
-#
-############################## TEST AUTO JOBS ##############################
-## job to run SIT testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: demo_doc_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
-#
-############################# RELEASE AUTO JOBS #############################
-## job to create a production release
-#  - name: prod_rel
-#    type: release
-#    steps:
-#      - IN: demo_ver
-#      - IN: sit
-#        switch: off
-#      - TASK: managed
-#        bump: patch
-#
-## job manipulate prod version param
-#  - name: set_prod_ver_param
-#    type: runSh
-#    steps:
-#      - IN: auto_repo
-#        switch: off
-#      - IN: prod_rel
-#      - OUT: prod_ver_param
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/setVer.sh prod_rel prod_ver_param
-#
-################################# CD AUTO JOBS ################################
-## deploy job that deploys native war to PROD ECS Cluster
-#  - name: demo_doc_prod
-#    type: deploy
-#    steps:
-#      - IN: doc_p_scaler
-#      - IN: prod_ver_param
-#      - IN: demo_doc_test
-#        switch: off
-#      - IN: env_prod_aws
-#        switch: off
-#      - TASK: managed
-#
-#
-#
-#
+# job to create AWS AMI used to deploy VMs
+  - name: build_ecs_ami
+    type: runSh
+    steps:
+      - IN: aws_creds
+      - IN: auto_repo
+        switch: off
+      - IN: network_params
+        switch: off
+      - TASK:
+        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
+      - OUT: ami_params
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
+
+# job to provision TEST VMs and ECS cluster
+  - name: prov_ecs_test
+    type: runSh
+    steps:
+      - IN: aws_pem
+      - IN: aws_creds
+      - IN: auto_repo
+        switch: off
+      - IN: ami_params
+        switch: off
+      - TASK:
+        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
+      - OUT: test_env_ecs
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
+
+# job to provision PROD VMs and ECS cluster
+  - name: prov_ecs_prod
+    type: runSh
+    steps:
+      - IN: aws_pem
+      - IN: aws_creds
+      - IN: auto_repo
+        switch: off
+      - IN: ami_params
+        switch: off
+      - TASK:
+        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
+      - OUT: prod_env_ecs
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
+
+######################## DOCKER Based WAR CI AUTO JOBS #######################
+# package sample WAR into docker container
+  - name: ci_app
+    type: runCLI
+    steps:
+      - IN: docker_creds
+      - IN: demo_doc_repo
+      - TASK:
+        - script: IN/demo_doc_repo/gitRepo/build.sh
+      - OUT: demo_doc_img
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILED"
+
+#  manifest that defines the DOCKER WAR service definition
+  - name: create_app_man
+    type: manifest
+    steps:
+      - IN: demo_doc_img
+      - IN: doc_img_opts
+#      - IN: def_ver_param
+
+## deploy job that deploys native war to TEST ECS Cluster
+  - name: deploy_app_test
+    type: deploy
+    steps:
+      - IN: create_app_man
+      - IN: test_env_ecs
+        switch: off
+      - TASK: managed
+
+############################# TEST AUTO JOBS ##############################
+# job to run SIT testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: deploy_app_test
+      - IN: sit_params
+      - TASK:
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
+
+############################ RELEASE AUTO JOBS #############################
+# job to create a production release
+  - name: release_app
+    type: release
+    steps:
+      - IN: seed_app_ver
+      - IN: sit
+        switch: off
+      - TASK: managed
+        bump: patch
+
+# job manipulate prod version param
+  - name: set_prod_app_ver
+    type: runSh
+    steps:
+      - IN: auto_repo
+        switch: off
+      - IN: release_app
+      - OUT: prod_app_ver
+      - TASK:
+        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
+
+################################ CD AUTO JOBS ################################
+# deploy job that deploys native war to PROD ECS Cluster
+  - name: deploy_app_prod
+    type: deploy
+    steps:
+      - IN: scale_app_prod
+      - IN: prod_app_ver
+      - IN: deploy_app_test
+        switch: off
+      - IN: prod_env_ecs
+        switch: off
+      - TASK: managed
+
+
+
+
 
 
 ######################### NATIVE WAR CI/CD JOBS #########################

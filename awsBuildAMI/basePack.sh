@@ -56,7 +56,7 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 }
 
-build_ami() {
+build_ecs_ami() {
   pushd "$RES_REPO_STATE/awsBuildAMI"
   echo "validating AMI template"
   echo "-----------------------------------"
@@ -89,7 +89,7 @@ main() {
   which ssh-agent
 
   set_context
-  build_ami
+  build_ecs_ami
 }
 
 main

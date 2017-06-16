@@ -1,7 +1,7 @@
 #!/bin/bash -e
 set -o pipefail
 
-export CURR_JOB="aws_infra_setup"
+export CURR_JOB="setup_aws_net"
 export RES_NET_PARAMS="network_params"
 
 # make this come from terraform
