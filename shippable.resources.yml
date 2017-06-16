@@ -25,6 +25,13 @@ resources:
     type: integration
     integration: "demo_aws_pem"
 
+# Parameters to hold VPC settings
+  - name: ami_params
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
 ## Parameters to provision AMI Builder
 #  - name: network_params
 #    type: params
@@ -35,8 +42,6 @@ resources:
 #        SECURITY_GROUP_ID: "sg-d1c671ac"
 #        REGION: "us-east-1"
 #
-
-
 
 ####################### DOCKER Based WAR CI AUTO RESOURCES #######################
 ## Docker credentials

@@ -5,6 +5,7 @@ export CURR_JOB="build_baseami"
 export RES_AWS_CREDS="aws_creds"
 export RES_PARAMS="network_params"
 export RES_REPO="auto_repo"
+export AMI_PARAMS="ami_params"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export CURR_JOB_UP=$(echo $CURR_JOB | awk '{print toupper($0)}')
@@ -37,6 +38,7 @@ set_context(){
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
+  echo "AMI_PARAMS=$AMI_PARAMS"
   echo "RES_REPO=$RES_REPO"
 
   echo "CURR_JOB_STATE=$CURR_JOB_STATE"
@@ -74,6 +76,10 @@ build_ami() {
     #this is to get the ami from output
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+
+    #this is to get the ami from output
+    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > "$JOB_STATE/$AMI_PARAMS.env"
 
   popd
 }

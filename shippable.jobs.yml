@@ -19,21 +19,23 @@ jobs:
     always:
       - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 
-## job to create AWS AMI used to deploy VMs
-#  - name: build_ami
-#    type: runSh
-#    steps:
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - IN: network_params
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
-#
+# job to create AWS AMI used to deploy VMs
+  - name: build_ami
+    type: runSh
+    steps:
+      - IN: aws_creds
+      - IN: aws_infra_setup
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - IN: network_params
+      - TASK:
+        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
+      - OUT: ami_params
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
 
 
 ## job to provision TEST VMs and ECS cluster
