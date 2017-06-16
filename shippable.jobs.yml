@@ -18,63 +18,63 @@ jobs:
       - script: echo "FAILURE"
     always:
       - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
-
-# job to create AWS AMI used to deploy VMs
-  - name: build_ami
-    type: runSh
-    steps:
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - IN: network_params
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-      - OUT: ami_params
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
-
-# job to provision TEST VMs and ECS cluster
-  - name: test_infra_prov
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - IN: ami_params
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
-      - OUT: env_test_aws
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
-
-# job to provision PROD VMs and ECS cluster
-  - name: prod_infra_prov
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - IN: ami_params
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
-      - OUT: env_prod_aws
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
+#
+## job to create AWS AMI used to deploy VMs
+#  - name: build_ami
+#    type: runSh
+#    steps:
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - IN: network_params
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
+#      - OUT: ami_params
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
+#
+## job to provision TEST VMs and ECS cluster
+#  - name: test_infra_prov
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - IN: ami_params
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
+#      - OUT: env_test_aws
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
+#
+## job to provision PROD VMs and ECS cluster
+#  - name: prod_infra_prov
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - IN: ami_params
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
+#      - OUT: env_prod_aws
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
 ######################### DOCKER Based WAR CI AUTO JOBS #######################
 ## package sample WAR into docker container
