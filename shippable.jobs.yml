@@ -35,46 +35,46 @@ jobs:
       - script: echo "SUCCESS"
     on_failure:
       - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
-
-# job to provision TEST VMs and ECS cluster
-  - name: prov_ecs_test
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - IN: ami_params
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
-      - OUT: test_env_ecs
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
-
-# job to provision PROD VMs and ECS cluster
-  - name: prov_ecs_prod
-    type: runSh
-    steps:
-      - IN: aws_pem
-      - IN: aws_creds
-      - IN: auto_repo
-        switch: off
-      - IN: ami_params
-        switch: off
-      - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
-      - OUT: prod_env_ecs
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
+#
+## job to provision TEST VMs and ECS cluster
+#  - name: prov_ecs_test
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - IN: ami_params
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsTestECS
+#      - OUT: test_env_ecs
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsTestECS
+#
+## job to provision PROD VMs and ECS cluster
+#  - name: prov_ecs_prod
+#    type: runSh
+#    steps:
+#      - IN: aws_pem
+#      - IN: aws_creds
+#      - IN: auto_repo
+#        switch: off
+#      - IN: ami_params
+#        switch: off
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
+#      - OUT: prod_env_ecs
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
 ######################### DOCKER Based WAR CI AUTO JOBS #######################
 ## package sample WAR into docker container
