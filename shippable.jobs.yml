@@ -1,4 +1,9 @@
 jobs:
+  - name: samplejavatomcat_runCI
+    type: runCI
+    steps:
+        - IN: config_repo
+
 ############################ INFRA AUTOMATION JOBS #########################
 ## job to setup AWS IAM roles, profiles etc.
 #  - name: setup_aws_net
