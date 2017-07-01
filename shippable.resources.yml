@@ -7,11 +7,11 @@ resources:
     pointer:
       sourceName: "avinci/demoPipes"
       branch: master
-#
-## AWS credentials
-#  - name: aws_creds
-#    type: integration
-#    integration: "demo_aws_key"
+
+# AWS credentials
+  - name: aws_creds
+    type: integration
+    integration: "demo_aws_key"
 #
 ## Parameters to hold VPC settings
 #  - name: network_params
