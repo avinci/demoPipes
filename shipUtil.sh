@@ -44,8 +44,14 @@ ship_get_resource_state() {
 
 ship_get_resource_param_value() {
     UP=$(ship_get_resource_name $1)
-    PARAMNAME=$(_set_shippable_name $(_to_upper $1))
+    PARAMNAME=$(_set_shippable_name $(_to_upper $2))
     echo $(eval echo "$"$UP"_PARAM_"$PARAMNAME)
+}
+
+ship_get_resource_integration_value() {
+    UP=$(ship_get_resource_name $1)
+    INTKEYNAME=$(_set_shippable_name $(_to_upper $2))
+    echo $(eval echo "$"$UP"_INTEGRATION_"$INTKEYNAME)
 }
 
 ship_get_resource_version_name() {
@@ -66,4 +72,47 @@ ship_get_resource_version_number() {
 ship_get_resource_integration_value() {
     META=$(ship_get_resource_meta $1)
     cat "$META/integration.json"  | jq -r '.'$2
+}
+
+ship_post_resource_state_value() {
+    RES=$1
+    STATENAME=$2
+    STATEVALUE=$3
+    echo $STATENAME=$STATEVALUE > "$JOB_STATE/$RES.env"
+}
+
+ship_put_resource_state_value() {
+    RES=$1
+    STATENAME=$2
+    STATEVALUE=$3
+    echo $STATENAME=$STATEVALUE >> "$JOB_STATE/$RES.env"
+}
+
+ship_copy_job_state_file() {
+    FILENAME=$1
+    cp -vr $FILENAME $JOB_STATE
+}
+
+ship_refresh_resource_state_file() {
+    NEWSTATEFILE=$1
+    #this could contain path i.e / too and hence try and find only filename
+    #greedy trimming ## is greedy, / is the string to look for and return last
+    #part
+    ONLYFILENAME=${NEWSTATEFILE##*/}
+
+    if [ -f "$NEWSTATEFILE" ]; then
+        echo "New state file exists, copying"
+        echo "-----------------------------------"
+        cp -vr $NEWSTATEFILE $JOB_STATE
+    else
+        local PREVSTATE="$JOB_PREVIOUS_STATE/$ONLYFILENAME"
+        if [ -f "$PREVSTATE" ]; then
+            echo "Previous state file exists, copying"
+            echo "-----------------------------------"
+            cp -vr $PREVSTATE $JOB_STATE
+        else
+            echo "No previous state file exists. Skipping"
+            echo "-----------------------------------"
+        fi
+    fi
 }

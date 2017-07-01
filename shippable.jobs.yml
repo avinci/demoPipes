@@ -1,8 +1,20 @@
 jobs:
-#  - name: samplejavatomcat_runCI
-#    type: runCI
-#    steps:
-#        - IN: config_repo
+  - name: test-job
+    type: runSh
+    steps:
+      - IN: auto_repo
+        switch: off
+      - IN: aws_creds
+      - TASK:
+        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
+        - script: IN/auto_repo/gitRepo/outputNetwork.sh
+      - OUT: network_params
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 
 ############################ INFRA AUTOMATION JOBS #########################
 ## job to setup AWS IAM roles, profiles etc.

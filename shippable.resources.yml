@@ -1,19 +1,12 @@
 resources:
-  - name: config_repo
-    type: gitRepo
-    integration: demo_gh
-    pointer:
-      sourceName: shippable/beta
-      branch: master
-
 ########################## INFRA AUTOMATION RESOURCES #########################
-## REPO for all automation
-#  - name: auto_repo
-#    type: gitRepo
-#    integration: "demo_gh"
-#    pointer:
-#      sourceName: "avinci/demoPipes"
-#      branch: master
+# REPO for all automation
+  - name: auto_repo
+    type: gitRepo
+    integration: "demo_gh"
+    pointer:
+      sourceName: "avinci/demoPipes"
+      branch: master
 #
 ## AWS credentials
 #  - name: aws_creds
