@@ -17,7 +17,7 @@ main() {
   eval `ssh-agent -s`
   which ssh-agent
 
-  . shipUtil.sh
+  ./shipUtil.sh
   set_context
 }
 
