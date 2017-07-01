@@ -6,15 +6,14 @@ jobs:
         switch: off
       - IN: aws_creds
       - TASK:
-        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-        - script: IN/auto_repo/gitRepo/outputNetwork.sh
-      - OUT: network_params
+        - script: . IN/auto_repo/gitRepo/shipUtil.sh
+        - script: IN/auto_repo/gitRepo/test.sh
     on_success:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
+      - script: ls -al
 
 ############################ INFRA AUTOMATION JOBS #########################
 ## job to setup AWS IAM roles, profiles etc.
