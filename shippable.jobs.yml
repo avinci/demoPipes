@@ -6,8 +6,7 @@ jobs:
         switch: off
       - IN: aws_creds
       - TASK:
-        - script: . IN/auto_repo/gitRepo/shipUtil.sh
-        - script: IN/auto_repo/gitRepo/test.sh
+        - script: . IN/auto_repo/gitRepo/shipUtil.sh & IN/auto_repo/gitRepo/test.sh
     on_success:
       - script: echo "SUCCESS"
     on_failure:
