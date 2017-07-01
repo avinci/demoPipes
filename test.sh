@@ -17,9 +17,10 @@ main() {
   eval `ssh-agent -s`
   which ssh-agent
 
-  pwd
+  pushd IN/auto_repo/gitRepo
   ./shipUtil.sh
   set_context
+  popd
 }
 
 main
