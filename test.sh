@@ -18,7 +18,7 @@ main() {
   which ssh-agent
 
   pushd IN/auto_repo/gitRepo
-  ./shipUtil.sh
+  . shipUtil.sh
   set_context
   popd
 }
