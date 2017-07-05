@@ -22,7 +22,7 @@ main() {
   eval `ssh-agent -s`
   which ssh-agent
 
-  . IN/auto_repo/gitRepo/shipUtil.sh
+
   set_context
 }
 
