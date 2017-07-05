@@ -6,7 +6,7 @@ export RES_AWS_CREDS="aws_creds"
 
 set_context(){
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS AWS_ACCESS_KEY_ID)
+  export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_access_key_id)
   export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS AWS_SECRET_ACCESS_KEY)
 
   echo "AVIN"
