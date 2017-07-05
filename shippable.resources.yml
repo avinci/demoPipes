@@ -12,26 +12,26 @@ resources:
   - name: aws_creds
     type: integration
     integration: "demo_aws_key"
-#
-## Parameters to hold VPC settings
-#  - name: network_params
-#    type: params
-#    version:
-#      params:
-#        SEED: "initial_version"
-#
-## AWS pem key
-#  - name: aws_pem
-#    type: integration
-#    integration: "demo_aws_pem"
-#
-## Parameters to hold VPC settings
-#  - name: ami_params
-#    type: params
-#    version:
-#      params:
-#        SEED: "initial_version"
-#
+
+# Parameters to hold VPC settings
+  - name: network_params
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
+# AWS pem key
+  - name: aws_pem
+    type: integration
+    integration: "demo_aws_pem"
+
+# Parameters to hold VPC settings
+  - name: ami_params
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
 ## Reference to ECS Test Cluster
 #  - name: test_env_ecs
 #    type: cluster

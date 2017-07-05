@@ -2,39 +2,26 @@
 set -o pipefail
 
 export CURR_JOB="build_baseami"
-export RES_AWS_CREDS="aws_creds"
-export RES_PARAMS="network_params"
 export RES_REPO="auto_repo"
+export RES_PARAMS="network_params"
+export RES_AWS_CREDS="aws_creds"
 export AMI_PARAMS="ami_params"
 
-# since resources here have dashes Shippable replaces them and UPPER cases them
-export CURR_JOB_UP=$(echo $CURR_JOB | awk '{print toupper($0)}')
-export CURR_JOB_STATE=$(eval echo "$"$CURR_JOB_UP"_STATE")
+export CURR_JOB_STATE=$(ship_get_resource_state $CURR_JOB)
+export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
 
-# since resources here have dashes Shippable replaces them and UPPER cases them
-export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
-export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
+# get network params
+export REGION=$(ship_get_resource_param_value $RES_PARAMS REGION)
+export VPC_ID=$(ship_get_resource_param_value $RES_PARAMS VPC_ID)
+export SUBNET_ID=$(ship_get_resource_param_value $RES_PARAMS SUBNET_ID)
+export SECURITY_GROUP_ID=$(ship_get_resource_param_value $RES_PARAMS SECURITY_GROUP_ID)
+export SOURCE_AMI="ami-c8580bdf"
 
 # Now get AWS keys
-export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
-export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
-
-# set the repo path
-export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
-export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
+export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
-  # now get all the parameters for ami location
-  export REGION=$(eval echo "$"$RES_PARAMS_STR"_REGION")
-  export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
-  export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
-  export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
-  export SOURCE_AMI="ami-c8580bdf"
-
-  # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
-
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
@@ -42,9 +29,6 @@ set_context(){
   echo "RES_REPO=$RES_REPO"
 
   echo "CURR_JOB_STATE=$CURR_JOB_STATE"
-  echo "JOB_STATE=$JOB_STATE"
-  echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
-  echo "RES_PARAMS_STR=$RES_PARAMS_STR"
   echo "RES_REPO_STATE=$RES_REPO_STATE"
 
   echo "SOURCE_AMI=$SOURCE_AMI"
@@ -74,12 +58,11 @@ build_ecs_ami() {
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
-    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+    AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2)
 
-    #this is to get the ami from output
-    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$AMI_PARAMS.env"
+    ship_post_resource_state_value $CURR_JOB versionName $AMI_ID
+    ship_post_resource_state_value $AMI_PARAMS versionName $AMI_ID
 
     cat manifest.json
   popd
