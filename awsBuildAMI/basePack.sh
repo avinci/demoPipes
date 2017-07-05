@@ -81,6 +81,7 @@ build_ecs_ami() {
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > "$JOB_STATE/$AMI_PARAMS.env"
 
+    cat manifest.json
   popd
 }
 
