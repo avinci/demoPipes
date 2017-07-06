@@ -62,7 +62,7 @@ destroy_changes() {
     -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
 
   ls -al
-  
+
   popd
 }
 
