@@ -61,10 +61,11 @@ build_ecs_ami() {
     AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2)
 
+    AMI_ID=$(ship_get_json_value manifest.json builds[0].artifact_id | cut -d':' -f 2)
+
+    echo $AMI_ID
     ship_post_resource_state_value $CURR_JOB versionName $AMI_ID
     ship_post_resource_state_value $AMI_PARAMS versionName $AMI_ID
-
-    ship_get_json_value manifest.json builds.artifact_id
 
   popd
 }
