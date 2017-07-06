@@ -64,7 +64,8 @@ build_ecs_ami() {
     ship_post_resource_state_value $CURR_JOB versionName $AMI_ID
     ship_post_resource_state_value $AMI_PARAMS versionName $AMI_ID
 
-    cat manifest.json
+    ship_get_json_value manifest.json artifact_id
+
   popd
 }
 

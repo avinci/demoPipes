@@ -74,6 +74,10 @@ ship_get_resource_integration_value() {
     cat "$META/integration.json"  | jq -r '.'$2
 }
 
+ship_get_json_value() {
+    cat $1 | jq -r '.'$2
+}
+
 ship_post_resource_state_value() {
     RES=$1
     STATENAME=$2
