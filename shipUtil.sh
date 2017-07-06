@@ -120,3 +120,18 @@ ship_refresh_resource_state_file() {
         fi
     fi
 }
+
+ship_restore_resource_state_file() {
+  PREV_TF_STATEFILE=$JOB_PREVIOUS_STATE/$1
+  PATH_TO_RESTORE_IN=$2
+  echo "Managing state file"
+  echo "-----------------------------------"
+  if [ -f "$PREV_TF_STATEFILE" ]; then
+    echo "Statefile exists, copying"
+    echo "-----------------------------------"
+    cp -vr $PREV_TF_STATEFILE $PATH_TO_RESTORE_IN
+  else
+    echo "No previous statefile exists"
+    echo "-----------------------------------"
+  fi
+}

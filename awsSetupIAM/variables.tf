@@ -27,7 +27,7 @@ variable "availability_zone" {
 variable "ecsAmi" {
   description = "optimized ECS AMIs"
   default = {
-    us-east-1 = "ami-1924770e"
+    us-east-1 = "ami-04351e12"
     us-west-1 = "ami-bb473cdb"
     us-west-2 = "ami-84b44de4"
   }
@@ -45,18 +45,20 @@ variable "aws_key_filename" {
   default = "demo-key.pem"
 }
 
+########################### AMI Config #####################################
+
 # all variables related to VPC
-variable "vpc_name" {
-  description = "VPC for the cluster system"
-  default = "demoTestVPC"
+variable "ami_vpc" {
+  description = "VPC for building AMIs"
+  default = "ami_vpc"
 }
 
-variable "networkCIDR" {
-  description = "Uber IP addressing for the Network"
+variable "ami_network_cidr" {
+  description = "Uber IP addressing for AMI Network"
   default = "200.0.0.0/16"
 }
 
-variable "public0-0CIDR" {
+variable "ami_public_cidr" {
   description = "Public 0.0 CIDR for externally accesible subnet"
   default = "200.0.0.0/24"
 }

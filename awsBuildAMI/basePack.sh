@@ -48,18 +48,17 @@ build_ecs_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+  packer -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
     -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var SOURCE_AMI=$SOURCE_AMI \
-    baseAMI.json 2>&1 | tee output.txt
+    baseAMI.json
 
     AMI_ID=$(ship_get_json_value manifest.json builds[0].artifact_id | cut -d':' -f 2)
-
-    echo $AMI_ID
+    # create version for ami param
     ship_post_resource_state_value $CURR_JOB versionName $AMI_ID
     ship_post_resource_state_value $AMI_PARAMS versionName $AMI_ID
 

@@ -5,9 +5,9 @@ export CURR_JOB="setup_aws_net"
 export RES_NET_PARAMS="network_params"
 
 # make this come from terraform
-export VPC_ID="vpc-1032db76"
-export SUBNET_ID="subnet-1c0cda20"
-export SECURITY_GROUP_ID="sg-d1c671ac"
+export VPC_ID="vpc-521b7a34"
+export SUBNET_ID="subnet-08eeed41"
+export SECURITY_GROUP_ID="sg-c90f7fb5"
 export REGION="us-east-1"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
