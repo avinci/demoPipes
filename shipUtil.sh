@@ -105,18 +105,16 @@ ship_refresh_resource_state_file() {
     ONLYFILENAME=${NEWSTATEFILE##*/}
 
     if [ -f "$NEWSTATEFILE" ]; then
-        echo "New state file exists, copying"
-        echo "-----------------------------------"
+        echo "---------------  New state file exists, copying  ----------------"
         cp -vr $NEWSTATEFILE $JOB_STATE
     else
         local PREVSTATE="$JOB_PREVIOUS_STATE/$ONLYFILENAME"
         if [ -f "$PREVSTATE" ]; then
-            echo "Previous state file exists, copying"
-            echo "-----------------------------------"
+            echo ""
+            echo "------  Previous state file exists, copying -----"
             cp -vr $PREVSTATE $JOB_STATE
         else
-            echo "No previous state file exists. Skipping"
-            echo "-----------------------------------"
+            echo "-------  No previous state file exists. Skipping  ---------"
         fi
     fi
 }
@@ -124,14 +122,11 @@ ship_refresh_resource_state_file() {
 ship_restore_resource_state_file() {
   PREV_TF_STATEFILE=$JOB_PREVIOUS_STATE/$1
   PATH_TO_RESTORE_IN=$2
-  echo "Managing state file"
-  echo "-----------------------------------"
+  echo "---------------- Managing state file -------------------"
   if [ -f "$PREV_TF_STATEFILE" ]; then
-    echo "Statefile exists, copying"
-    echo "-----------------------------------"
+    echo "------  State file exists, copying -----"
     cp -vr $PREV_TF_STATEFILE $PATH_TO_RESTORE_IN
   else
-    echo "No previous statefile exists"
-    echo "-----------------------------------"
+    echo "-------  No state file exists. Skipping  ---------"
   fi
 }

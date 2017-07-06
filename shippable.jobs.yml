@@ -25,16 +25,15 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-        - script: . IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-#        - script: IN/auto_repo/gitRepo/outputNetwork.sh
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
       - OUT: network_params
     on_success:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: eval echo "$("ship_get_resource_state $(ship_get_resource_name auto_repo)")"
+      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
 
 # job to create AWS AMI used to deploy VMs
   - name: build_ecs_ami
@@ -52,7 +51,7 @@ jobs:
     on_success:
       - script: echo "SUCCESS"
     on_failure:
-      - script: cat /build/IN/auto_repo/gitRepo/awsBuildAMI/output.txt
+      - script: echo "FAILURE"
 
 ## job to provision TEST VMs and ECS cluster
 #  - name: prov_ecs_test
