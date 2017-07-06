@@ -7,6 +7,12 @@ export REPO_RES_CONTEXT="$REPO_RES_STATE/$CURR_JOB_CONTEXT"
 export NEW_TF_STATEFILE="$REPO_RES_CONTEXT/terraform.tfstate"
 
 
+echo "CURR_JOB_CONTEXT=$CURR_JOB_CONTEXT"
+echo "RES_REPO=$RES_REPO"
+echo "REPO_RES_CONTEXT=$REPO_RES_CONTEXT"
+echo "NEW_TF_STATEFILE=$NEW_TF_STATEFILE"
+
+
 main() {
   ship_refresh_resource_state_file $NEW_TF_STATEFILE
 }
