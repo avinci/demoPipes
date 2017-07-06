@@ -22,7 +22,7 @@ jobs:
   - name: setup_aws_net
     type: runSh
     steps:
-      - IN: ami-tf-state
+#      - IN: ami-tf-state
       - IN: vpc_params
       - IN: aws_creds
         switch: off
@@ -34,7 +34,7 @@ jobs:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh create awsSetupIAM ami-tf-state
       - OUT: vpc_ami_params
-      - OUT: ami-tf-state
+#      - OUT: ami-tf-state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
