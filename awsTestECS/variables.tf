@@ -9,15 +9,12 @@ variable "aws_secret_access_key" {
 
 variable "region" {
   description = "AWS region"
-  default = "us-east-1"
 }
 
 variable "availability_zone" {
   description = "availability zone used for the demo, based on region"
   default = {
     us-east-1 = "us-east-1a"
-    us-west-1 = "us-west-1a"
-    us-west-2 = "us-west-2a"
   }
 }
 
@@ -28,8 +25,6 @@ variable "ecsAmi" {
   description = "optimized ECS AMIs"
   default = {
     us-east-1 = "ami-1924770e"
-    us-west-1 = "ami-bb473cdb"
-    us-west-2 = "ami-84b44de4"
   }
 }
 
@@ -45,18 +40,11 @@ variable "aws_key_filename" {
   default = "demo-key.pem"
 }
 
-# all variables related to VPC
-variable "vpc_name" {
-  description = "VPC for the cluster system"
-  default = "demoTestVPC"
+########################### Test VPC Settings #################################
+variable "test_public_sg_id" {
+  description = "Test VPC public security group"
 }
 
-variable "networkCIDR" {
-  description = "Uber IP addressing for the Network"
-  default = "200.0.0.0/16"
-}
-
-variable "public0-0CIDR" {
-  description = "Public 0.0 CIDR for externally accesible subnet"
-  default = "200.0.0.0/24"
+variable "test_public_sn_id" {
+  description = "Test VPC public subnet"
 }

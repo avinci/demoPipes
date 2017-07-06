@@ -17,3 +17,15 @@ output "ami_public_sn_id" {
 output "ami_public_sg_id" {
   value = "${aws_security_group.ami_public_sg.id}"
 }
+
+output "test_vpc_id" {
+  value = "${aws_vpc.test_vpc.id}"
+}
+
+output "test_public_sn_id" {
+  value = "${aws_subnet.test_public_sn.id}"
+}
+
+output "test_public_sg_id" {
+  value = "${aws_security_group.test_public_sg.id}"
+}

@@ -3,11 +3,12 @@
 export ACTION=$1
 export CURR_JOB_CONTEXT=$2
 export STATE_RES=$3
+export OUT_RES_SET=$4
+
 export RES_REPO="auto_repo"
 export RES_VPC="vpc_params"
 export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
-export OUT_RES_VPC_AMI="vpc_ami_params"
 export TF_STATEFILE="terraform.tfstate"
 
 # get the path where gitRepo code is available
@@ -88,19 +89,23 @@ apply_changes() {
     -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
     -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
 
-  ship_post_resource_state_value $OUT_RES_VPC_AMI versionName \
+  ship_post_resource_state_value $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"
-  ship_put_resource_state_value $OUT_RES_VPC_AMI REGION $REGION
-  ship_put_resource_state_value $OUT_RES_VPC_AMI AMI_VPC_ID \
-    $(terraform output ami_vpc_id)
-  ship_put_resource_state_value $OUT_RES_VPC_AMI AMI_PUBLIC_SN_ID \
-    $(terraform output ami_public_sn_id)
-  ship_put_resource_state_value $OUT_RES_VPC_AMI AMI_PUBLIC_SG_ID \
-    $(terraform output ami_public_sg_id)
-  ship_put_resource_state_value $OUT_RES_VPC_AMI BASE_ECS_AMI \
-    $(terraform output base_ecs_ami)
 
-  cat $JOB_STATE/vpc_ami_params.env
+  # Since this file is used for multiple tf provisioning handle the uniqueness
+  # based on context
+
+  if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
+    ship_put_resource_state_value $OUT_RES_SET REGION $REGION
+    ship_put_resource_state_value $OUT_RES_SET AMI_VPC_ID \
+      $(terraform output ami_vpc_id)
+    ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SN_ID \
+      $(terraform output ami_public_sn_id)
+    ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SG_ID \
+      $(terraform output ami_public_sg_id)
+    ship_put_resource_state_value $OUT_RES_SET BASE_ECS_AMI \
+      $(terraform output base_ecs_ami)
+  fi
 
   popd
 }

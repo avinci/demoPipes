@@ -42,9 +42,8 @@ variable "aws_key_filename" {
   default = "demo-key.pem"
 }
 
-########################### AMI Config #####################################
+########################### AMI VPC Config ##################################
 
-# all variables related to VPC
 variable "ami_vpc" {
   description = "VPC for building AMIs"
 }
@@ -54,5 +53,19 @@ variable "ami_network_cidr" {
 }
 
 variable "ami_public_cidr" {
+  description = "Public 0.0 CIDR for externally accesible subnet"
+}
+
+########################### Test VPC Config ################################
+
+variable "test_vpc" {
+  description = "VPC for Test environment"
+}
+
+variable "test_network_cidr" {
+  description = "Uber IP addressing for Test Network"
+}
+
+variable "test_public_cidr" {
   description = "Public 0.0 CIDR for externally accesible subnet"
 }
