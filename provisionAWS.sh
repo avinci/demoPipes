@@ -61,16 +61,6 @@ destroy_changes() {
     -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
     -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
 
-  ship_post_resource_state_value $OUT_RES_VPC_AMI versionName \
-    "Version from build $BUILD_NUMBER"
-  ship_put_resource_state_value OUT_RES_VPC_AMI REGION $REGION
-  ship_put_resource_state_value OUT_RES_VPC_AMI AMI_VPC_ID \
-    $(terrform output ami_vpc_id)
-  ship_put_resource_state_value OUT_RES_VPC_AMI AMI_PUBLIC_SN_ID \
-    $(terrform output ami_public_sn_id)
-  ship_put_resource_state_value OUT_RES_VPC_AMI AMI_PUBLIC_SG_ID \
-    $(terrform output ami_public_sg_id)
-
   popd
 }
 
