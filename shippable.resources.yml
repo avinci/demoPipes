@@ -36,7 +36,7 @@ resources:
     integration: "demo_aws_pem"
 
 # Parameters to hold VPC settings
-  - name: ami_params
+  - name: ami_sec_approved
     type: params
     version:
       params:

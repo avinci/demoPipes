@@ -1,4 +1,4 @@
-output "ecs_ami" {
+output "base_ecs_ami" {
   value = "${lookup(var.ecsAmi, var.region)}"
 }
 

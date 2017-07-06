@@ -97,6 +97,8 @@ apply_changes() {
     $(terraform output ami_public_sn_id)
   ship_put_resource_state_value $OUT_RES_VPC_AMI AMI_PUBLIC_SG_ID \
     $(terraform output ami_public_sg_id)
+  ship_put_resource_state_value $OUT_RES_VPC_AMI BASE_ECS_AMI \
+    $(terraform output base_ecs_ami)
 
   cat $JOB_STATE/vpc_ami_params.env
 
