@@ -26,8 +26,7 @@ variable "availability_zone" {
 variable "ecsAmi" {
   description = "optimized ECS AMIs"
   default = {
-    us-east-1 = "ami-d15a75c7"
-    us-west-1 = "ami-bb473cdb"
+    us-east-1 = "ami-04351e12"
   }
 }
 
