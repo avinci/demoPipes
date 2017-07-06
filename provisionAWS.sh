@@ -61,6 +61,8 @@ destroy_changes() {
     -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
     -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
 
+  ls -al
+  
   popd
 }
 
