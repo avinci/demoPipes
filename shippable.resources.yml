@@ -13,8 +13,18 @@ resources:
     type: integration
     integration: "demo_aws_key"
 
+# Parameters for core vpc settings
+  - name: vpc_params
+    type: params
+    version:
+      params:
+        REGION: "us-east-1"
+        AMI_VPC: "ami_vpc"
+        AMI_NETWORK_CIDR: "200.0.0.0/16"
+        AMI_PUBLIC_CIDR: "200.0.0.0/24"
+
 # Parameters to hold VPC settings
-  - name: network_params
+  - name: vpc_ami_params
     type: params
     version:
       params:

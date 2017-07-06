@@ -9,7 +9,6 @@ variable "aws_secret_access_key" {
 
 variable "region" {
   description = "AWS region"
-  default = "us-east-1"
 }
 
 variable "availability_zone" {
@@ -50,15 +49,12 @@ variable "aws_key_filename" {
 # all variables related to VPC
 variable "ami_vpc" {
   description = "VPC for building AMIs"
-  default = "ami_vpc"
 }
 
 variable "ami_network_cidr" {
   description = "Uber IP addressing for AMI Network"
-  default = "200.0.0.0/16"
 }
 
 variable "ami_public_cidr" {
   description = "Public 0.0 CIDR for externally accesible subnet"
-  default = "200.0.0.0/24"
 }

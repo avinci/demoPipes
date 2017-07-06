@@ -1,39 +1,44 @@
 jobs:
-  - name: test-job
-    type: runSh
-    steps:
-      - IN: auto_repo
-        switch: off
-      - IN: aws_creds
-      - TASK:
-        - script: . IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . IN/auto_repo/gitRepo/test.sh
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: ls -al
+#  - name: test-job
+#    type: runSh
+#    steps:
+#      - IN: vpc_params
+#      - IN: aws_creds
+#        switch: off
+#      - IN: auto_repo
+#        switch: off
+#      - TASK:
+#        - script: . IN/auto_repo/gitRepo/shipUtil.sh
+#        - script: . IN/auto_repo/gitRepo/test.sh
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: ls -al
 
 ########################### INFRA AUTOMATION JOBS #########################
 # job to setup AWS IAM roles, profiles etc.
   - name: setup_aws_net
     type: runSh
     steps:
-      - IN: aws_pem
+      - IN: vpc_params
       - IN: aws_creds
+        switch: off
+      - IN: aws_pem
+        switch: off
       - IN: auto_repo
         switch: off
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-      - OUT: network_params
+      - OUT: vpc_ami_params
     on_success:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
+      - script: /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM
 
 # job to create AWS AMI used to deploy VMs
   - name: build_ecs_ami

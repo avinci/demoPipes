@@ -14,6 +14,6 @@ output "ami_public_sn_id" {
   value = "${aws_subnet.ami_public_sn.id}"
 }
 
-output "ami_public_sg" {
+output "ami_public_sg_id" {
   value = "${aws_security_group.ami_public_sg.id}"
 }
