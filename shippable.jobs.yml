@@ -38,8 +38,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM
 
 # job to create AWS AMI used to deploy VMs
   - name: build_ecs_ami
