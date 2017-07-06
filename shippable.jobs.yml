@@ -54,7 +54,7 @@ jobs:
       - TASK:
         - script: . IN/auto_repo/gitRepo/shipUtil.sh
         - script: . IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-      - OUT: ami_params
+      - OUT: ami_sec_approved
     on_success:
       - script: echo "SUCCESS"
     on_failure:
