@@ -33,8 +33,8 @@ jobs:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
-#    always:
-#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsSetupIAM
+    always:
+      - script: eval echo "$("ship_get_resource_state $(ship_get_resource_name auto_repo)")"
 
 # job to create AWS AMI used to deploy VMs
   - name: build_ecs_ami

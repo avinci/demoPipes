@@ -6,6 +6,7 @@ export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
 export PREV_TF_STATEFILE="terraform.tfstate"
 
+# get the path where gitRepo code is available
 export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
 export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB"
 
@@ -14,7 +15,6 @@ export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aw
 export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
-
   pushd $RES_REPO_CONTEXT
 
   echo "CURR_JOB=$CURR_JOB"
@@ -25,11 +25,12 @@ set_context(){
   echo "RES_REPO_STATE=$RES_REPO_STATE"
   echo "RES_REPO_CONTEXT=$RES_REPO_CONTEXT"
 
+  # This restores the terraform state file
   ship_restore_resource_state_file $PREV_TF_STATEFILE $RES_REPO_CONTEXT
+
+  # This gets the PEM key for SSH into the machines
   ship_get_resource_integration_value $RES_AWS_PEM key > demo-key.pem
   chmod 600 demo-key.pem
-
-  ls -al
 
   popd
 }
@@ -37,8 +38,7 @@ set_context(){
 destroy_changes() {
   pushd $RES_REPO_CONTEXT
 
-  echo "Destroy changes"
-  echo "-----------------------------------"
+  echo "----------------  Destroy changes  -------------------"
   terraform destroy -force \
     -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
     -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY"
@@ -49,14 +49,12 @@ destroy_changes() {
 apply_changes() {
   pushd $RES_REPO_CONTEXT
 
-  echo "Planning changes"
-  echo "-----------------------------------"
+  echo "----------------  Planning changes  -------------------"
   terraform plan \
     -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
     -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY"
 
-  echo "Apply changes"
-  echo "-----------------------------------"
+  echo "-----------------  Apply changes  ------------------"
   terraform apply \
     -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
     -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY"
@@ -65,11 +63,8 @@ apply_changes() {
 }
 
 main() {
+  echo "----------------  Testing SSH  -------------------"
   eval `ssh-agent -s`
-  which ssh-agent
-
-  echo "Testing SSH"
-  echo "-----------------------------------"
   ps -eaf | grep ssh
   which ssh-agent
 
