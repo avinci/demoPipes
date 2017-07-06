@@ -1,12 +1,12 @@
 #!/bin/bash -e
 
 export CURR_JOB_CONTEXT=$1
+export STATE_RES=$2
 export RES_REPO="auto_repo"
 export RES_VPC="vpc_params"
 export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
 export OUT_RES_VPC_AMI="vpc_ami_params"
-export STATE_RES="ami-tf-state"
 export TF_STATEFILE="terraform.tfstate"
 
 # get the path where gitRepo code is available
@@ -41,7 +41,6 @@ set_context(){
   echo "AMI_PUBLIC_CIDR=$AMI_PUBLIC_CIDR"
 
   # This restores the terraform state file
-  #ship_copy_file_from_job_prev_state $TF_STATEFILE $RES_REPO_CONTEXT
   ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
 
 
