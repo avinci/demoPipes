@@ -45,7 +45,7 @@ ship_get_resource_state() {
 ship_get_resource_param_value() {
     UP=$(ship_get_resource_name $1)
     PARAMNAME=$(_set_shippable_name $(_to_upper $2))
-    echo $(eval echo "$"$UP"_PARAM_"$PARAMNAME)
+    echo $(eval echo "$"$UP"_PARAMS_"$PARAMNAME)
 }
 
 ship_get_resource_integration_value() {

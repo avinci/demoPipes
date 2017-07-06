@@ -1,7 +1,7 @@
 #!/bin/bash -e
 set -o pipefail
 
-export CURR_JOB="build_baseami"
+export CURR_JOB="build_ecs_ami"
 export RES_REPO="auto_repo"
 export RES_PARAMS="network_params"
 export RES_AWS_CREDS="aws_creds"
