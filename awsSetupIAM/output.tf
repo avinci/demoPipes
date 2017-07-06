@@ -1,5 +1,5 @@
 output "ecs_ami" {
-  value = "${var.ecsAmi.us-east-1}"
+  value = "${lookup(var.ecsAmi, var.region)}"
 }
 
 output "region" {
@@ -17,4 +17,3 @@ output "ami_public_sn_id" {
 output "ami_public_sg" {
   value = "${aws_security_group.ami_public_sg.id}"
 }
-
