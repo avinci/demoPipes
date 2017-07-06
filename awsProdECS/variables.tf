@@ -17,7 +17,6 @@ variable "availability_zone" {
   default = {
     us-east-1 = "us-east-1a"
     us-west-1 = "us-west-1a"
-    us-west-2 = "us-west-2a"
   }
 }
 
@@ -29,7 +28,6 @@ variable "ecsAmi" {
   default = {
     us-east-1 = "ami-d15a75c7"
     us-west-1 = "ami-bb473cdb"
-    us-west-2 = "ami-84b44de4"
   }
 }
 
