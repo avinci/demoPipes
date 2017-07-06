@@ -22,7 +22,7 @@ jobs:
   - name: setup_aws_net
     type: runSh
     steps:
-      - IN: ami-tf-state
+#      - IN: ami-tf-state
       - IN: vpc_params
       - IN: aws_creds
         switch: off
