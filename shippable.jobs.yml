@@ -25,8 +25,8 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
-        - script: IN/auto_repo/gitRepo/outputNetwork.sh
+        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM
+#        - script: IN/auto_repo/gitRepo/outputNetwork.sh
       - OUT: network_params
     on_success:
       - script: echo "SUCCESS"
