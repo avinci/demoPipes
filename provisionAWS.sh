@@ -89,11 +89,11 @@ apply_changes() {
     "Version from build $BUILD_NUMBER"
   ship_put_resource_state_value OUT_RES_VPC_AMI REGION $REGION
   ship_put_resource_state_value OUT_RES_VPC_AMI AMI_VPC_ID \
-    $(terrform output ami_vpc_id)
+    $(terraform output ami_vpc_id)
   ship_put_resource_state_value OUT_RES_VPC_AMI AMI_PUBLIC_SN_ID \
-    $(terrform output ami_public_sn_id)
+    $(terraform output ami_public_sn_id)
   ship_put_resource_state_value OUT_RES_VPC_AMI AMI_PUBLIC_SG_ID \
-    $(terrform output ami_public_sg_id)
+    $(terraform output ami_public_sg_id)
 
   popd
 }
