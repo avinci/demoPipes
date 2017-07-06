@@ -97,6 +97,19 @@ ship_copy_file_to_job_state() {
   cp -vr $FILENAME $JOB_STATE
 }
 
+ship_copy_file_from_job_prev_state() {
+  PREV_TF_STATEFILE=$JOB_PREVIOUS_STATE/$1
+  PATH_TO_RESTORE_IN=$2
+
+  echo "---------------- Restoring file from state -------------------"
+  if [ -f "$PREV_TF_STATEFILE" ]; then
+    echo "------  File exists, copying -----"
+    cp -vr $PREV_TF_STATEFILE $PATH_TO_RESTORE_IN
+  else
+    echo "------  File does not exist in previous state, skipping -----"
+  fi
+}
+
 ship_refresh_file_to_job_state() {
   NEWSTATEFILE=$1
   #this could contain path i.e / too and hence try and find only filename
@@ -104,30 +117,20 @@ ship_refresh_file_to_job_state() {
   #part
   ONLYFILENAME=${NEWSTATEFILE##*/}
 
+  echo "---------------- Copying file to state -------------------"
   if [ -f "$NEWSTATEFILE" ]; then
-      echo "---------------  New state file exists, copying  ----------------"
-      cp -vr $NEWSTATEFILE $JOB_STATE
+    echo "---------------  New file exists, copying  ----------------"
+    cp -vr $NEWSTATEFILE $JOB_STATE
   else
-      local PREVSTATE="$JOB_PREVIOUS_STATE/$ONLYFILENAME"
-      if [ -f "$PREVSTATE" ]; then
-          echo ""
-          echo "------  Previous state file exists, copying -----"
-          cp -vr $PREVSTATE $JOB_STATE
-      else
-          echo "-------  No previous state file exists. Skipping  ---------"
-      fi
-  fi
-}
-
-ship_copy_file_from_job_prev_state() {
-  PREV_TF_STATEFILE=$JOB_PREVIOUS_STATE/$1
-  PATH_TO_RESTORE_IN=$2
-  echo "---------------- Managing state file -------------------"
-  if [ -f "$PREV_TF_STATEFILE" ]; then
-    echo "------  State file exists, copying -----"
-    cp -vr $PREV_TF_STATEFILE $PATH_TO_RESTORE_IN
-  else
-    echo "-------  No state file exists. Skipping  ---------"
+    echo "---  New file does not exist, hence try to copy from prior state ---"
+    local PREVSTATE="$JOB_PREVIOUS_STATE/$ONLYFILENAME"
+    if [ -f "$PREVSTATE" ]; then
+      echo ""
+      echo "------  File exists in previous state, copying -----"
+      cp -vr $PREVSTATE $JOB_STATE
+    else
+      echo "-------  No previous state file exists. Skipping  ---------"
+    fi
   fi
 }
 
@@ -137,19 +140,18 @@ ship_copy_file_from_resource_state() {
   PATH_TO_COPY_INTO=$3
   FULL_PATH="/build/IN/"$RES_NAME"/state/"$FILE_NAME
 
-  echo "---------------- Managing state file -------------------"
+  echo "---------------- Restoring file from state -------------------"
   if [ -f "$FULL_PATH" ]; then
-    echo "------  State file exists, copying -----"
+    echo "------  File exists, copying -----"
     cp -vr $FULL_PATH $PATH_TO_COPY_INTO
   else
-    echo "-------  No state file exists. Skipping  ---------"
+    echo "------  File does not exist in previous state, skipping -----"
   fi
 }
 
 ship_refresh_file_to_resource_state() {
   FILE_NAME=$1
   RES_NAME=$2
-
 
   #this could contain path i.e / too and hence try and find only filename
   #greedy trimming ## is greedy, / is the string to look for and return last
@@ -158,17 +160,18 @@ ship_refresh_file_to_resource_state() {
   RES_OUT_PATH="/build/OUT/"$RES_NAME"/state"
   RES_IN_PATH="/build/IN/"$RES_NAME"/state"
 
-    if [ -f "$FILE_NAME" ]; then
-        echo "---------------  New state file exists, copying  ----------------"
-        cp -vr $FILE_NAME $RES_OUT_PATH
+  echo "---------------- Copying file to state -------------------"
+  if [ -f "$FILE_NAME" ]; then
+      echo "---------------  New file exists, copying  ----------------"
+      cp -vr $FILE_NAME $RES_OUT_PATH
+  else
+    echo "---  New file does not exist, hence try to copy from prior state ---"
+    local PREVSTATE="$RES_IN_PATH/$ONLYFILENAME"
+    if [ -f "$PREVSTATE" ]; then
+      echo "------  File exists in previous state, copying -----"
+      cp -vr $PREVSTATE $RES_OUT_PATH
     else
-        local PREVSTATE="$RES_IN_PATH/$ONLYFILENAME"
-        if [ -f "$PREVSTATE" ]; then
-            echo ""
-            echo "------  Previous state file exists, copying -----"
-            cp -vr $PREVSTATE $RES_OUT_PATH
-        else
-            echo "-------  No previous state file exists. Skipping  ---------"
-        fi
+      echo "------  File does not exist in previous state, skipping -----"
     fi
+  fi
 }

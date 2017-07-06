@@ -17,7 +17,7 @@ echo "NEW_TF_STATEFILE=$NEW_TF_STATEFILE"
 
 main() {
   ship_refresh_file_to_job_state $NEW_TF_STATEFILE
-  ship_refresh_file_to_resource_state "$REPO_RES_CONTEXT/test.sh" $STATE_RES
+  ship_refresh_file_to_resource_state "$RES_REPO_STATE/test.sh" $STATE_RES
 }
 
 main
