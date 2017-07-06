@@ -5,6 +5,8 @@ export RES_REPO="auto_repo"
 export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
 
+echo foo > $JOB_PREVIOUS_STATE/terraform.tfstate
+
 export PREV_TF_STATEFILE="terraform.tfstate"
 
 export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
