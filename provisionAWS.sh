@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-export CURR_JOB_CONTEXT=$1
-export STATE_RES=$2
+export ACTION=$1
+export CURR_JOB_CONTEXT=$2
+export STATE_RES=$3
 export RES_REPO="auto_repo"
 export RES_VPC="vpc_params"
 export RES_AWS_CREDS="aws_creds"
@@ -109,8 +110,14 @@ main() {
   which ssh-agent
 
   set_context
-  destroy_changes
-  #apply_changes
+
+  if [ $ACTION = "create" ]; then
+    apply_changes
+  fi
+
+  if [ $ACTION = "destroy" ]; then
+    destroy_changes
+  fi
 }
 
 main

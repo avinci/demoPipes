@@ -32,7 +32,7 @@ jobs:
         switch: off
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh awsSetupIAM ami-tf-state
+        - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh create awsSetupIAM ami-tf-state
       - OUT: vpc_ami_params
       - OUT: ami-tf-state
     on_success:
