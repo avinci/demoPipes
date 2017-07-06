@@ -91,5 +91,5 @@ resource "aws_iam_policy_attachment" "demoRolePolicyAttach" {
 # creating an instance profile so that container instances have right role
 resource "aws_iam_instance_profile" "demoECSInstProf" {
   name = "demoECSInstProf"
-  role = "${aws_iam_role.demoECSRole.name}"
+  roles = ["${aws_iam_role.demoECSRole.name}"]
 }
