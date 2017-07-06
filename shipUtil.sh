@@ -89,11 +89,6 @@ ship_put_resource_state_value() {
     RES=$1
     STATENAME=$2
     STATEVALUE=$3
-
-    echo "RES="$RES
-    echo "STATENAME="$STATENAME
-    echo "STATEVALUE="$STATEVALUE
-
     echo $STATENAME=$STATEVALUE >> "$JOB_STATE/$RES.env"
 }
 
