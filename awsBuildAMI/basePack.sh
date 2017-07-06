@@ -57,10 +57,6 @@ build_ecs_ami() {
     -var SOURCE_AMI=$SOURCE_AMI \
     baseAMI.json 2>&1 | tee output.txt
 
-    #this is to get the ami from output
-    AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2)
-
     AMI_ID=$(ship_get_json_value manifest.json builds[0].artifact_id | cut -d':' -f 2)
 
     echo $AMI_ID
