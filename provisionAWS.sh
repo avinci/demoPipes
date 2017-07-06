@@ -42,8 +42,7 @@ set_context(){
 
   # This restores the terraform state file
   ship_copy_file_from_job_prev_state $TF_STATEFILE $RES_REPO_CONTEXT
-
-  ship_copy_file_from_resource_state $STATE_RES test.sh .
+  ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
 
 
   # This gets the PEM key for SSH into the machines
