@@ -49,7 +49,7 @@ jobs:
       - IN: aws_creds
       - IN: auto_repo
         switch: off
-      - IN: network_params
+      - IN: vpc_ami_params
         switch: off
       - TASK:
         - script: . IN/auto_repo/gitRepo/shipUtil.sh
