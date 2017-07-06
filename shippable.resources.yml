@@ -42,6 +42,10 @@ resources:
       params:
         SEED: "initial_version"
 
+# AMI State for terraform
+  - name: ami-tf-state
+    type: state
+
 ## Reference to ECS Test Cluster
 #  - name: test_env_ecs
 #    type: cluster

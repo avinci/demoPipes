@@ -6,7 +6,8 @@ export RES_VPC="vpc_params"
 export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
 export OUT_RES_VPC_AMI="vpc_ami_params"
-export PREV_TF_STATEFILE="terraform.tfstate"
+export STATE_RES="ami-tf-state"
+export TF_STATEFILE="terraform.tfstate"
 
 # get the path where gitRepo code is available
 export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
@@ -40,7 +41,10 @@ set_context(){
   echo "AMI_PUBLIC_CIDR=$AMI_PUBLIC_CIDR"
 
   # This restores the terraform state file
-  ship_restore_resource_state_file $PREV_TF_STATEFILE $RES_REPO_CONTEXT
+  ship_copy_file_from_job_prev_state $TF_STATEFILE $RES_REPO_CONTEXT
+
+  ship_copy_file_from_resource_state $STATE_RES test.sh .
+
 
   # This gets the PEM key for SSH into the machines
   ship_get_resource_integration_value $RES_AWS_PEM key > demo-key.pem
