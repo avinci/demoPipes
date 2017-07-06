@@ -105,8 +105,8 @@ main() {
   which ssh-agent
 
   set_context
-  destroy_changes
-  #apply_changes
+  #destroy_changes
+  apply_changes
 }
 
 main
