@@ -16,7 +16,7 @@ echo "NEW_TF_STATEFILE=$NEW_TF_STATEFILE"
 
 
 main() {
-  ship_refresh_file_to_job_state $NEW_TF_STATEFILE
+  #ship_refresh_file_to_job_state $NEW_TF_STATEFILE
   ship_refresh_file_to_resource_state $NEW_TF_STATEFILE $STATE_RES
 }
 

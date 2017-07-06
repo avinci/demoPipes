@@ -41,7 +41,7 @@ set_context(){
   echo "AMI_PUBLIC_CIDR=$AMI_PUBLIC_CIDR"
 
   # This restores the terraform state file
-  ship_copy_file_from_job_prev_state $TF_STATEFILE $RES_REPO_CONTEXT
+  #ship_copy_file_from_job_prev_state $TF_STATEFILE $RES_REPO_CONTEXT
   ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
 
 
