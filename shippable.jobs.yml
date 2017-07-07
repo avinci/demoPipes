@@ -47,6 +47,7 @@ jobs:
     type: runSh
     steps:
       - IN: aws_creds
+        switch: off
       - IN: auto_repo
         switch: off
       - IN: vpc_conf
