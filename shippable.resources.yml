@@ -53,14 +53,14 @@ resources:
   - name: test_tf_state
     type: state
 
-## Reference to ECS Test Cluster
-#  - name: test_env_ecs
-#    type: cluster
-#    integration: "demo_aws_key"
-#    pointer:
-#      sourceName : "test-aws"
-#      region: "us-east-1"
-#
+# Reference to ECS Test Cluster
+  - name: test_env_ecs
+    type: cluster
+    integration: "demo_aws_key"
+    pointer:
+      sourceName : "test-aws"
+      region: "us-east-1"
+
 ## Reference to ECS PROD Cluster
 #  - name: prod_env_ecs
 #    type: cluster
