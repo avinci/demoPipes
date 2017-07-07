@@ -36,12 +36,6 @@ variable "aws_key_name" {
   default = "demo-key"
 }
 
-# this is a PEM key for key pairs
-variable "aws_key_filename" {
-  description = "Key Pair FileName used to login to the box"
-  default = "demo-key.pem"
-}
-
 ########################### AMI VPC Config ##################################
 
 variable "ami_vpc" {
