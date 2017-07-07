@@ -64,7 +64,7 @@ jobs:
   - name: prov_ecs_test
     type: runSh
     steps:
-#      - IN: test_tf_state
+      - IN: test_tf_state
       - IN: ami_sec_approved
       - IN: vpc_conf
         switch: off
@@ -78,7 +78,7 @@ jobs:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
       - OUT: test_env_ecs
-#      - OUT: test_tf_state
+      - OUT: test_tf_state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
