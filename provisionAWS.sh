@@ -43,7 +43,7 @@ set_context(){
   # naming the file terraform.tfvars makes terraform automatically load it
 
   echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" > terraform.tfvars
-  echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> terraform.tfvars
+  # echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> terraform.tfvars
 
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
@@ -65,6 +65,8 @@ set_context(){
     echo "test_network_cidr=$TEST_NETWORK_CIDR" >> terraform.tfvars
     echo "test_public_cidr=$TEST_PUBLIC_CIDR" >> terraform.tfvars
   fi
+
+  cat terraform.tfvars
   popd
 }
 
