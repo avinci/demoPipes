@@ -27,7 +27,7 @@ resources:
         TEST_PUBLIC_CIDR: "300.0.0.0/24"
 
 # Parameters to hold VPC settings
-  - name: vpc_ami_params
+  - name: vpc_conf
     type: params
     version:
       params:
