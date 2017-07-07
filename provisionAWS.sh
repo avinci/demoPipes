@@ -53,6 +53,9 @@ set_context(){
     export AMI_VPC=$(ship_get_resource_param_value $RES_CONF AMI_VPC)
     export AMI_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_NETWORK_CIDR)
     export AMI_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_PUBLIC_CIDR)
+    export TEST_VPC=$(ship_get_resource_param_value $RES_CONF TEST_VPC)
+    export TEST_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_NETWORK_CIDR)
+    export TEST_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_PUBLIC_CIDR)
 
     echo "region=$REGION" >> terraform.tfvars
     echo "ami_vpc=$AMI_VPC" >> terraform.tfvars
@@ -91,14 +94,22 @@ apply_changes() {
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
     ship_put_resource_state_value $OUT_RES_SET REGION $REGION
+    ship_put_resource_state_value $OUT_RES_SET BASE_ECS_AMI \
+      $(terraform output base_ecs_ami)
+
     ship_put_resource_state_value $OUT_RES_SET AMI_VPC_ID \
       $(terraform output ami_vpc_id)
     ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SN_ID \
       $(terraform output ami_public_sn_id)
     ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SG_ID \
       $(terraform output ami_public_sg_id)
-    ship_put_resource_state_value $OUT_RES_SET BASE_ECS_AMI \
-      $(terraform output base_ecs_ami)
+
+    ship_put_resource_state_value $OUT_RES_SET TEST_VPC_ID \
+      $(terraform output test_vpc_id)
+    ship_put_resource_state_value $OUT_RES_SET TEST_PUBLIC_SN_ID \
+      $(terraform output test_public_sn_id)
+    ship_put_resource_state_value $OUT_RES_SET TEST_PUBLIC_SG_ID \
+      $(terraform output test_public_sg_id)
   fi
 
   popd
