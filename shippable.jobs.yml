@@ -73,6 +73,7 @@ jobs:
       - IN: ami_sec_approved
         switch: off
       - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
       - OUT: test_env_ecs
       - OUT: test_tf_state
