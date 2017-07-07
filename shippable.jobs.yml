@@ -118,7 +118,7 @@ jobs:
   - name: de_prov_net
     type: runSh
     steps:
-      - IN: ami-tf-state
+#      - IN: ami-tf-state
       - IN: net_conf
         switch: off
       - IN: de_prov_ecs_test
@@ -132,7 +132,7 @@ jobs:
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
-      - OUT: ami-tf-state
+#      - OUT: ami-tf-state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
