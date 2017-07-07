@@ -56,13 +56,13 @@ set_context(){
     export TEST_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_NETWORK_CIDR)
     export TEST_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_PUBLIC_CIDR)
 
-    echo "region = $REGION" >> terraform.tfvars
-    echo "ami_vpc = $AMI_VPC" >> terraform.tfvars
-    echo "ami_network_cidr = $AMI_NETWORK_CIDR" >> terraform.tfvars
-    echo "ami_public_cidr = $AMI_PUBLIC_CIDR" >> terraform.tfvars
-    echo "test_vpc = $TEST_VPC" >> terraform.tfvars
-    echo "test_network_cidr = $TEST_NETWORK_CIDR" >> terraform.tfvars
-    echo "test_public_cidr = $TEST_PUBLIC_CIDR" >> terraform.tfvars
+    echo "region = \"$REGION\"" >> terraform.tfvars
+    echo "ami_vpc = \"$AMI_VPC\"" >> terraform.tfvars
+    echo "ami_network_cidr = \"$AMI_NETWORK_CIDR\"" >> terraform.tfvars
+    echo "ami_public_cidr = \"$AMI_PUBLIC_CIDR\"" >> terraform.tfvars
+    echo "test_vpc = \"$TEST_VPC\"" >> terraform.tfvars
+    echo "test_network_cidr = \"$TEST_NETWORK_CIDR\"" >> terraform.tfvars
+    echo "test_public_cidr = \"$TEST_PUBLIC_CIDR\"" >> terraform.tfvars
   fi
 
   popd
