@@ -119,8 +119,8 @@ jobs:
     type: runSh
     steps:
 #      - IN: ami-tf-state
-      - IN: de_prov_ecs_test
-        switch: off
+#      - IN: de_prov_ecs_test
+#        switch: off
       - IN: aws_creds
         switch: off
       - IN: auto_repo
