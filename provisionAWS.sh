@@ -42,8 +42,8 @@ set_context(){
   # now setup the variables based on context
   # naming the file terraform.tfvars makes terraform automatically load it
 
-  echo "aws_access_key_id = '$AWS_ACCESS_KEY_ID'" > terraform.tfvars
-  echo "aws_secret_access_key = '$AWS_SECRET_ACCESS_KEY'" >> terraform.tfvars
+  echo "aws_access_key_id = \"$AWS_ACCESS_KEY_ID\"" > terraform.tfvars
+  echo "aws_secret_access_key = \"$AWS_SECRET_ACCESS_KEY\"" >> terraform.tfvars
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
 
