@@ -3,10 +3,10 @@
 export ACTION=$1
 export CURR_JOB_CONTEXT=$2
 export STATE_RES=$3
-export OUT_RES_SET=$4
+export RES_CONF=$4
+export OUT_RES_SET=$5
 
 export RES_REPO="auto_repo"
-export RES_VPC="vpc_params"
 export RES_AWS_CREDS="aws_creds"
 export RES_AWS_PEM="aws_pem"
 export TF_STATEFILE="terraform.tfstate"
@@ -19,12 +19,6 @@ export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_access_key_id)
 export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_secret_access_key)
 
-# Now get all VPC settings
-export REGION=$(ship_get_resource_param_value $RES_VPC REGION)
-export AMI_VPC=$(ship_get_resource_param_value $RES_VPC AMI_VPC)
-export AMI_NETWORK_CIDR=$(ship_get_resource_param_value $RES_VPC AMI_NETWORK_CIDR)
-export AMI_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_VPC AMI_PUBLIC_CIDR)
-
 set_context(){
   pushd $RES_REPO_CONTEXT
 
@@ -32,15 +26,10 @@ set_context(){
   echo "RES_REPO=$RES_REPO"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_AWS_PEM=$RES_AWS_PEM"
-
   echo "RES_REPO_CONTEXT=$RES_REPO_CONTEXT"
 
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
-  echo "REGION=$REGION"
-  echo "AMI_VPC=$AMI_VPC"
-  echo "AMI_NETWORK_CIDR=$AMI_NETWORK_CIDR"
-  echo "AMI_PUBLIC_CIDR=$AMI_PUBLIC_CIDR"
 
   # This restores the terraform state file
   ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
@@ -50,6 +39,29 @@ set_context(){
   ship_get_resource_integration_value $RES_AWS_PEM key > demo-key.pem
   chmod 600 demo-key.pem
 
+  # now setup the variables based on context
+  # naming the file terraform.tfvars makes terraform automatically load it
+
+  echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" > terraform.tfvars
+  echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> terraform.tfvars
+
+
+  if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
+
+    # Now get all VPC settings
+    export REGION=$(ship_get_resource_param_value $RES_CONF REGION)
+    export AMI_VPC=$(ship_get_resource_param_value $RES_CONF AMI_VPC)
+    export AMI_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_NETWORK_CIDR)
+    export AMI_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_PUBLIC_CIDR)
+
+    echo "region=$REGION" >> terraform.tfvars
+    echo "ami_vpc=$AMI_VPC" >> terraform.tfvars
+    echo "ami_network_cidr=$AMI_NETWORK_CIDR" >> terraform.tfvars
+    echo "ami_public_cidr=$AMI_PUBLIC_CIDR" >> terraform.tfvars
+    echo "test_vpc=$TEST_VPC" >> terraform.tfvars
+    echo "test_network_cidr=$TEST_NETWORK_CIDR" >> terraform.tfvars
+    echo "test_public_cidr=$TEST_PUBLIC_CIDR" >> terraform.tfvars
+  fi
   popd
 }
 
@@ -57,13 +69,7 @@ destroy_changes() {
   pushd $RES_REPO_CONTEXT
 
   echo "----------------  Destroy changes  -------------------"
-  terraform destroy -force \
-    -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
-    -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" \
-    -var "region=$REGION" \
-    -var "ami_vpc=$AMI_VPC" \
-    -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
-    -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
+  terraform destroy -force
 
   popd
 }
@@ -72,22 +78,10 @@ apply_changes() {
   pushd $RES_REPO_CONTEXT
 
   echo "----------------  Planning changes  -------------------"
-  terraform plan \
-    -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
-    -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" \
-    -var "region=$REGION" \
-    -var "ami_vpc=$AMI_VPC" \
-    -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
-    -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
+  terraform plan
 
   echo "-----------------  Apply changes  ------------------"
-  terraform apply \
-    -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \
-    -var "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" \
-    -var "region=$REGION" \
-    -var "ami_vpc=$AMI_VPC" \
-    -var "ami_network_cidr=$AMI_NETWORK_CIDR" \
-    -var "ami_public_cidr=$AMI_PUBLIC_CIDR"
+  terraform apply
 
   ship_post_resource_state_value $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"

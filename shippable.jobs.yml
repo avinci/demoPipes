@@ -2,7 +2,7 @@ jobs:
 #  - name: test-job
 #    type: runSh
 #    steps:
-#      - IN: vpc_params
+#      - IN: net_conf
 #      - IN: aws_creds
 #        switch: off
 #      - IN: auto_repo
@@ -19,11 +19,11 @@ jobs:
 
 ########################### INFRA AUTOMATION JOBS #########################
 # job to setup AWS IAM roles, profiles etc.
-  - name: setup_aws_net
+  - name: setup_net
     type: runSh
     steps:
-      - IN: ami-tf-state
-      - IN: vpc_params
+#      - IN: ami-tf-state
+      - IN: net_conf
       - IN: aws_creds
         switch: off
       - IN: aws_pem
@@ -32,9 +32,9 @@ jobs:
         switch: off
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh create awsSetupIAM ami-tf-state vpc_ami_params
+        - script: . /build/IN/auto_repo/gitRepo/provisionAWS.sh create awsSetupIAM ami-tf-state net_conf vpc_ami_params
       - OUT: vpc_ami_params
-      - OUT: ami-tf-state
+ #     - OUT: ami-tf-state
     on_success:
       - script: echo "SUCCESS"
     on_failure:

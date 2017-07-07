@@ -14,7 +14,7 @@ resources:
     integration: "demo_aws_key"
 
 # Parameters for core vpc settings
-  - name: vpc_params
+  - name: net_conf
     type: params
     version:
       params:
@@ -45,8 +45,12 @@ resources:
       params:
         SEED: "initial_version"
 
-# AMI State for terraform
+# Networking State for terraform provisioning
   - name: ami-tf-state
+    type: state
+
+# Test State for terraform provisioning
+  - name: test_tf_state
     type: state
 
 ## Reference to ECS Test Cluster
