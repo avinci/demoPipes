@@ -66,6 +66,10 @@ destroy_changes() {
   echo "----------------  Destroy changes  -------------------"
   terraform destroy -force
 
+  ship_post_resource_state_value $OUT_RES_SET versionName \
+    "Version from build $BUILD_NUMBER"
+  ship_put_resource_state_value $OUT_RES_SET PROV_STATE "Deleted"
+
   popd
 }
 
@@ -81,8 +85,8 @@ apply_changes() {
   ship_post_resource_state_value $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"
 
+  ship_put_resource_state_value $OUT_RES_SET PROV_STATE "Active"
   ship_put_resource_state_value $OUT_RES_SET REGION $REGION
-
   ship_put_resource_state_value $OUT_RES_SET TEST_ECS_INS_0_IP \
     $(terraform output test_ecs_ins_0_ip)
   ship_put_resource_state_value $OUT_RES_SET TEST_ECS_INS_1_IP \
