@@ -65,14 +65,14 @@ jobs:
     type: runSh
     steps:
 #      - IN: test_tf_state
+      - IN: ami_sec_approved
       - IN: vpc_conf
+        switch: off
       - IN: aws_pem
         switch: off
       - IN: aws_creds
         switch: off
       - IN: auto_repo
-        switch: off
-      - IN: ami_sec_approved
         switch: off
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
