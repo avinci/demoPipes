@@ -46,7 +46,6 @@ set_context(){
   echo "aws_secret_access_key = \"$AWS_SECRET_ACCESS_KEY\"" >> terraform.tfvars
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
-
     # Now get all VPC settings
     export REGION=$(ship_get_resource_param_value $RES_CONF REGION)
     export AMI_VPC=$(ship_get_resource_param_value $RES_CONF AMI_VPC)
@@ -63,6 +62,11 @@ set_context(){
     echo "test_vpc = \"$TEST_VPC\"" >> terraform.tfvars
     echo "test_network_cidr = \"$TEST_NETWORK_CIDR\"" >> terraform.tfvars
     echo "test_public_cidr = \"$TEST_PUBLIC_CIDR\"" >> terraform.tfvars
+  fi
+
+  if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
+    # Now get provisioned test network settings
+
   fi
 
   popd
