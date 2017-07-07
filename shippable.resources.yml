@@ -23,8 +23,8 @@ resources:
         AMI_NETWORK_CIDR: "200.0.0.0/16"
         AMI_PUBLIC_CIDR: "200.0.0.0/24"
         TEST_VPC: "test_vpc"
-        TEST_NETWORK_CIDR: "300.0.0.0/16"
-        TEST_PUBLIC_CIDR: "300.0.0.0/24"
+        TEST_NETWORK_CIDR: "210.0.0.0/16"
+        TEST_PUBLIC_CIDR: "210.0.0.0/24"
 
 # Parameters to hold VPC settings
   - name: vpc_conf
