@@ -113,28 +113,28 @@ jobs:
 #    always:
 #      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
 
-#  - name: de_prov_net
-#    type: runSh
-#    steps:
+  - name: de_prov_net
+    type: runSh
+    steps:
 #      - IN: ami-tf-state
-##      - IN: de_prov_ecs_test
-##        switch: off
-#      - IN: net_conf
+#      - IN: de_prov_ecs_test
 #        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
+      - IN: net_conf
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
 #      - OUT: ami-tf-state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami-tf-state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami-tf-state
 
 ## job to provision PROD VMs and ECS cluster
 #  - name: prov_ecs_prod
