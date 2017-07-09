@@ -102,7 +102,7 @@ jobs:
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh destroy
-      - OUT: test_env_ecs
+#      - OUT: test_env_ecs
 #      - OUT: test_tf_state
     on_success:
       - script: echo "SUCCESS"
