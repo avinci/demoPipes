@@ -115,8 +115,8 @@ jobs:
     type: runSh
     steps:
       - IN: ami-tf-state
-#      - IN: de_prov_ecs_test
-#        switch: off
+      - IN: de_prov_ecs_test
+        switch: off
       - IN: net_conf
         switch: off
       - IN: aws_creds
