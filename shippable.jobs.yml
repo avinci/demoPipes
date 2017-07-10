@@ -31,7 +31,7 @@ jobs:
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
-#      - OUT: vpc_conf
+      - OUT: vpc_conf
 #      - OUT: ami-tf-state
     on_success:
       - script: echo "SUCCESS"
