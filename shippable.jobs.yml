@@ -22,7 +22,7 @@ jobs:
   - name: setup_net
     type: runSh
     steps:
-      - IN: ami-tf-state
+      - IN: ami_tf_state
       - IN: net_conf
       - IN: aws_creds
         switch: off
@@ -32,13 +32,13 @@ jobs:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
       - OUT: vpc_conf
-      - OUT: ami-tf-state
+      - OUT: ami_tf_state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami-tf-state
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami_tf_state
 
 # job to create AWS AMI used to deploy VMs
   - name: build_ecs_ami
@@ -114,7 +114,7 @@ jobs:
   - name: de_prov_net
     type: runSh
     steps:
-      - IN: ami-tf-state
+      - IN: ami_tf_state
       - IN: de_prov_ecs_test
         switch: off
       - IN: net_conf
@@ -126,13 +126,13 @@ jobs:
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
-      - OUT: ami-tf-state
+      - OUT: ami_tf_state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami-tf-state
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami_tf_state
 
 ## job to provision PROD VMs and ECS cluster
 #  - name: prov_ecs_prod

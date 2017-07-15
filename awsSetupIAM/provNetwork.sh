@@ -2,7 +2,7 @@
 
 export ACTION=$1
 export CURR_JOB_CONTEXT="awsSetupIAM"
-export STATE_RES="ami-tf-state"
+export STATE_RES="ami_tf_state"
 export RES_CONF="net_conf"
 export OUT_RES_SET="vpc_conf"
 

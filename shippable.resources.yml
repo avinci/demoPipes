@@ -46,7 +46,7 @@ resources:
         SEED: "initial_version"
 
 # Networking State for terraform provisioning
-  - name: ami-tf-state
+  - name: ami_tf_state
     type: state
 
 # Test State for terraform provisioning
