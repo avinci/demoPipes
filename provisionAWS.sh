@@ -12,12 +12,12 @@ export RES_AWS_PEM="aws_pem"
 export TF_STATEFILE="terraform.tfstate"
 
 # get the path where gitRepo code is available
-export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
+export RES_REPO_STATE=$(ship_resource_get_state $RES_REPO)
 export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 
 # Now get AWS keys
-export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_secret_access_key)
+export AWS_ACCESS_KEY_ID=$(ship_resource_get_integration $RES_AWS_CREDS aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(ship_resource_get_integration $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
   pushd $RES_REPO_CONTEXT
@@ -32,11 +32,11 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 
   # This restores the terraform state file
-  ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
+  ship_resource_copy_file_from_state $STATE_RES $TF_STATEFILE .
 
 
   # This gets the PEM key for SSH into the machines
-  ship_get_resource_integration_value $RES_AWS_PEM key > demo-key.pem
+  ship_resource_get_integration $RES_AWS_PEM key > demo-key.pem
   chmod 600 demo-key.pem
 
   # now setup the variables based on context
@@ -47,13 +47,13 @@ set_context(){
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
     # Now get all VPC settings
-    export REGION=$(ship_get_resource_param_value $RES_CONF REGION)
-    export AMI_VPC=$(ship_get_resource_param_value $RES_CONF AMI_VPC)
-    export AMI_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_NETWORK_CIDR)
-    export AMI_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF AMI_PUBLIC_CIDR)
-    export TEST_VPC=$(ship_get_resource_param_value $RES_CONF TEST_VPC)
-    export TEST_NETWORK_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_NETWORK_CIDR)
-    export TEST_PUBLIC_CIDR=$(ship_get_resource_param_value $RES_CONF TEST_PUBLIC_CIDR)
+    export REGION=$(ship_resource_get_param $RES_CONF REGION)
+    export AMI_VPC=$(ship_resource_get_param $RES_CONF AMI_VPC)
+    export AMI_NETWORK_CIDR=$(ship_resource_get_param $RES_CONF AMI_NETWORK_CIDR)
+    export AMI_PUBLIC_CIDR=$(ship_resource_get_param $RES_CONF AMI_PUBLIC_CIDR)
+    export TEST_VPC=$(ship_resource_get_param $RES_CONF TEST_VPC)
+    export TEST_NETWORK_CIDR=$(ship_resource_get_param $RES_CONF TEST_NETWORK_CIDR)
+    export TEST_PUBLIC_CIDR=$(ship_resource_get_param $RES_CONF TEST_PUBLIC_CIDR)
 
     echo "region = \"$REGION\"" >> terraform.tfvars
     echo "ami_vpc = \"$AMI_VPC\"" >> terraform.tfvars
@@ -90,29 +90,29 @@ apply_changes() {
   echo "-----------------  Apply changes  ------------------"
   terraform apply
 
-  ship_post_resource_state_value $OUT_RES_SET versionName \
+  ship_resource_post_state $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"
 
   # Since this file is used for multiple tf provisioning handle the uniqueness
   # based on context
 
   if [ $CURR_JOB_CONTEXT = "awsSetupIAM" ]; then
-    ship_put_resource_state_value $OUT_RES_SET REGION $REGION
-    ship_put_resource_state_value $OUT_RES_SET BASE_ECS_AMI \
+    ship_resource_put_state $OUT_RES_SET REGION $REGION
+    ship_resource_put_state $OUT_RES_SET BASE_ECS_AMI \
       $(terraform output base_ecs_ami)
 
-    ship_put_resource_state_value $OUT_RES_SET AMI_VPC_ID \
+    ship_resource_put_state $OUT_RES_SET AMI_VPC_ID \
       $(terraform output ami_vpc_id)
-    ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SN_ID \
+    ship_resource_put_state $OUT_RES_SET AMI_PUBLIC_SN_ID \
       $(terraform output ami_public_sn_id)
-    ship_put_resource_state_value $OUT_RES_SET AMI_PUBLIC_SG_ID \
+    ship_resource_put_state $OUT_RES_SET AMI_PUBLIC_SG_ID \
       $(terraform output ami_public_sg_id)
 
-    ship_put_resource_state_value $OUT_RES_SET TEST_VPC_ID \
+    ship_resource_put_state $OUT_RES_SET TEST_VPC_ID \
       $(terraform output test_vpc_id)
-    ship_put_resource_state_value $OUT_RES_SET TEST_PUBLIC_SN_ID \
+    ship_resource_put_state $OUT_RES_SET TEST_PUBLIC_SN_ID \
       $(terraform output test_public_sn_id)
-    ship_put_resource_state_value $OUT_RES_SET TEST_PUBLIC_SG_ID \
+    ship_resource_put_state $OUT_RES_SET TEST_PUBLIC_SG_ID \
       $(terraform output test_public_sg_id)
   fi
 

@@ -4,7 +4,7 @@ export CURR_JOB_CONTEXT=$1
 export STATE_RES=$2
 
 export RES_REPO="auto_repo"
-export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
+export RES_REPO_STATE=$(ship_resource_get_state $RES_REPO)
 export REPO_RES_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 export NEW_TF_STATEFILE="$REPO_RES_CONTEXT/terraform.tfstate"
 
@@ -17,7 +17,7 @@ echo "NEW_TF_STATEFILE=$NEW_TF_STATEFILE"
 
 
 main() {
-  ship_refresh_file_to_resource_state $NEW_TF_STATEFILE $STATE_RES
+  ship_resource_refresh_file_to_state $NEW_TF_STATEFILE $STATE_RES
 }
 
 main

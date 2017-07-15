@@ -8,69 +8,69 @@ _to_upper(){
   echo $(echo $1 | awk '{print toupper($0)}')
 }
 
-ship_get_resource_name() {
+ship_resource_get_name() {
   _set_shippable_name $(_to_upper $1)
 }
 
-ship_get_resource_id() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_id() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_ID")
 }
 
-ship_get_resource_meta() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_meta() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_META") #loc of integration.json
 }
 
-ship_get_resource_state() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_state() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_STATE")
 }
 
-ship_get_resource_operation() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_operation() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_OPERATION")
 }
 
-ship_get_resource_type() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_type() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_TYPE")
 }
 
-ship_get_resource_state() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_state() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_STATE")
 }
 
-ship_get_resource_param_value() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_param() {
+  UP=$(ship_resource_get_name $1)
   PARAMNAME=$(_set_shippable_name $(_to_upper $2))
   echo $(eval echo "$"$UP"_PARAMS_"$PARAMNAME)
 }
 
-ship_get_resource_integration_value() {
-    UP=$(ship_get_resource_name $1)
+ship_resource_get_integration() {
+    UP=$(ship_resource_get_name $1)
     INTKEYNAME=$(_set_shippable_name $(_to_upper $2))
     echo $(eval echo "$"$UP"_INTEGRATION_"$INTKEYNAME)
 }
 
-ship_get_resource_version_name() {
-    UP=$(ship_get_resource_name $1)
+ship_resource_get_version_name() {
+    UP=$(ship_resource_get_name $1)
     echo $(eval echo "$"$UP"_VERSIONNAME")
 }
 
-ship_get_resource_version_id() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_version_id() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_VERSIONID")
 }
 
-ship_get_resource_version_number() {
-  UP=$(ship_get_resource_name $1)
+ship_resource_get_version_number() {
+  UP=$(ship_resource_get_name $1)
   echo $(eval echo "$"$UP"_VERSIONNUMBER")
 }
 
-ship_get_resource_integration_value() {
-  META=$(ship_get_resource_meta $1)
+ship_resource_get_integration() {
+  META=$(ship_resource_get_meta $1)
   cat "$META/integration.json"  | jq -r '.'$2
 }
 
@@ -78,26 +78,26 @@ ship_get_json_value() {
   cat $1 | jq -r '.'$2
 }
 
-ship_post_resource_state_value() {
+ship_resource_post_state() {
   RES=$1
   STATENAME=$2
   STATEVALUE=$3
   echo $STATENAME=$STATEVALUE > "$JOB_STATE/$RES.env"
 }
 
-ship_put_resource_state_value() {
+ship_resource_put_state() {
   RES=$1
   STATENAME=$2
   STATEVALUE=$3
   echo $STATENAME=$STATEVALUE >> "$JOB_STATE/$RES.env"
 }
 
-ship_copy_file_to_job_state() {
+ship_job_copy_file_to_state() {
   FILENAME=$1
   cp -vr $FILENAME $JOB_STATE
 }
 
-ship_copy_file_from_job_prev_state() {
+ship_job_copy_file_from_prev_state() {
   PREV_TF_STATEFILE=$JOB_PREVIOUS_STATE/$1
   PATH_TO_RESTORE_IN=$2
 
@@ -110,7 +110,7 @@ ship_copy_file_from_job_prev_state() {
   fi
 }
 
-ship_refresh_file_to_job_state() {
+ship_job_refresh_file_to_state() {
   NEWSTATEFILE=$1
   #this could contain path i.e / too and hence try and find only filename
   #greedy trimming ## is greedy, / is the string to look for and return last
@@ -134,7 +134,7 @@ ship_refresh_file_to_job_state() {
   fi
 }
 
-ship_copy_file_from_resource_state() {
+ship_resource_copy_file_from_state() {
   RES_NAME=$1
   FILE_NAME=$2
   PATH_TO_COPY_INTO=$3
@@ -149,7 +149,7 @@ ship_copy_file_from_resource_state() {
   fi
 }
 
-ship_refresh_file_to_resource_state() {
+ship_resource_refresh_file_to_state() {
   FILE_NAME=$1
   RES_NAME=$2
 

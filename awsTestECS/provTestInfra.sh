@@ -12,19 +12,19 @@ export RES_AWS_CREDS="aws_creds"
 export TF_STATEFILE="terraform.tfstate"
 
 # get the path where gitRepo code is available
-export RES_REPO_STATE=$(ship_get_resource_state $RES_REPO)
+export RES_REPO_STATE=$(ship_resource_get_state $RES_REPO)
 export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 
 # Now get AWS keys
-export AWS_ACCESS_KEY_ID=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(ship_get_resource_integration_value $RES_AWS_CREDS aws_secret_access_key)
+export AWS_ACCESS_KEY_ID=$(ship_resource_get_integration $RES_AWS_CREDS aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(ship_resource_get_integration $RES_AWS_CREDS aws_secret_access_key)
 
 # Now get all VPC settings
-export REGION=$(ship_get_resource_param_value $RES_CONF REGION)
-export TEST_VPC_ID=$(ship_get_resource_param_value $RES_CONF TEST_VPC_ID)
-export TEST_PUBLIC_SN_ID=$(ship_get_resource_param_value $RES_CONF TEST_PUBLIC_SN_ID)
-export TEST_PUBLIC_SG_ID=$(ship_get_resource_param_value $RES_CONF TEST_PUBLIC_SG_ID)
-export AMI_ID=$(ship_get_resource_param_value $RES_AMI AMI_ID)
+export REGION=$(ship_resource_get_param $RES_CONF REGION)
+export TEST_VPC_ID=$(ship_resource_get_param $RES_CONF TEST_VPC_ID)
+export TEST_PUBLIC_SN_ID=$(ship_resource_get_param $RES_CONF TEST_PUBLIC_SN_ID)
+export TEST_PUBLIC_SG_ID=$(ship_resource_get_param $RES_CONF TEST_PUBLIC_SG_ID)
+export AMI_ID=$(ship_resource_get_param $RES_AMI AMI_ID)
 
 set_context(){
   pushd $RES_REPO_CONTEXT
@@ -38,7 +38,7 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 
   # This restores the terraform state file
-  ship_copy_file_from_resource_state $STATE_RES $TF_STATEFILE .
+  ship_resource_copy_file_from_state $STATE_RES $TF_STATEFILE .
 
   # now setup the variables based on context
   # naming the file terraform.tfvars makes terraform automatically load it
@@ -59,9 +59,9 @@ destroy_changes() {
   echo "----------------  Destroy changes  -------------------"
   terraform destroy -force
 
-  ship_post_resource_state_value $OUT_RES_SET versionName \
+  ship_resource_post_state $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"
-  ship_put_resource_state_value $OUT_RES_SET PROV_STATE "Deleted"
+  ship_resource_put_state $OUT_RES_SET PROV_STATE "Deleted"
 
   popd
 }
@@ -75,16 +75,16 @@ apply_changes() {
   echo "-----------------  Apply changes  ------------------"
   terraform apply
 
-  ship_post_resource_state_value $OUT_RES_SET versionName \
+  ship_resource_post_state $OUT_RES_SET versionName \
     "Version from build $BUILD_NUMBER"
 
-  ship_put_resource_state_value $OUT_RES_SET PROV_STATE "Active"
-  ship_put_resource_state_value $OUT_RES_SET REGION $REGION
-  ship_put_resource_state_value $OUT_RES_SET TEST_ECS_INS_0_IP \
+  ship_resource_put_state $OUT_RES_SET PROV_STATE "Active"
+  ship_resource_put_state $OUT_RES_SET REGION $REGION
+  ship_resource_put_state $OUT_RES_SET TEST_ECS_INS_0_IP \
     $(terraform output test_ecs_ins_0_ip)
-  ship_put_resource_state_value $OUT_RES_SET TEST_ECS_INS_1_IP \
+  ship_resource_put_state $OUT_RES_SET TEST_ECS_INS_1_IP \
     $(terraform output test_ecs_ins_1_ip)
-  ship_put_resource_state_value $OUT_RES_SET TEST_ECS_CLUSTER_ID \
+  ship_resource_put_state $OUT_RES_SET TEST_ECS_CLUSTER_ID \
     $(terraform output test_ecs_cluster_id)
 
   popd
