@@ -134,10 +134,31 @@ jobs:
     always:
       - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami_tf_state
 
+
+
+######################### DOCKER Based CI AUTO JOBS #######################
+## package sample Node.js into docker container
   - name: ci-push-docker-hub_runCI
     type: runCI
     steps:
       - OUT: demo_doc_img
+
+#  manifest that defines the DOCKER WAR service definition
+  - name: create_app_man
+    type: manifest
+    steps:
+      - IN: demo_doc_img
+      - IN: doc_img_opts
+#      - IN: def_ver_param
+
+## deploy job that deploys native war to TEST ECS Cluster
+  - name: deploy_app_test
+    type: deploy
+    steps:
+      - IN: create_app_man
+      - IN: test_env_ecs
+        switch: off
+      - TASK: managed
 
 
 ## job to provision PROD VMs and ECS cluster
@@ -160,8 +181,6 @@ jobs:
 #    always:
 #      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
-######################### DOCKER Based WAR CI AUTO JOBS #######################
-## package sample WAR into docker container
 #  - name: ci_app
 #    type: runCLI
 #    steps:
@@ -175,22 +194,6 @@ jobs:
 #    on_failure:
 #      - script: echo "FAILED"
 #
-##  manifest that defines the DOCKER WAR service definition
-#  - name: create_app_man
-#    type: manifest
-#    steps:
-#      - IN: demo_doc_img
-#      - IN: doc_img_opts
-##      - IN: def_ver_param
-#
-### deploy job that deploys native war to TEST ECS Cluster
-#  - name: deploy_app_test
-#    type: deploy
-#    steps:
-#      - IN: create_app_man
-#      - IN: test_env_ecs
-#        switch: off
-#      - TASK: managed
 #
 ############################## TEST AUTO JOBS ##############################
 ## job to run SIT testing
