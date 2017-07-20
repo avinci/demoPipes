@@ -89,8 +89,8 @@ jobs:
     type: runSh
     steps:
 #      - IN: test_tf_state
-      - IN: sit
-        switch: off
+#      - IN: sit
+#        switch: off
       - IN: vpc_conf
         switch: off
       - IN: aws_creds
