@@ -160,7 +160,6 @@ jobs:
         switch: off
       - TASK: managed
 
-
 ## job to provision PROD VMs and ECS cluster
 #  - name: prov_ecs_prod
 #    type: runSh

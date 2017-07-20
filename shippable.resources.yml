@@ -92,15 +92,15 @@ resources:
     seed:
       versionName: "latest"
 
-## Docker Options for packaged WAR
-#  - name: doc_img_opts
-#    type: dockerOptions
-#    version:
-#      memory: 256
-#      cpuShares: 256
-#      portMappings:
-#        - 8080:8080
-#
+# Docker Options for packaged WAR
+  - name: doc_img_opts
+    type: dockerOptions
+    version:
+      memory: 256
+      cpuShares: 256
+      portMappings:
+        - 8080:8080
+
 ################################ TEST AUTO RESOURCES #########################
 ## REPO of SIT code
 #  - name: sit_repo
