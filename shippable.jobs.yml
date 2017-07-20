@@ -134,11 +134,10 @@ jobs:
     always:
       - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM ami_tf_state
 
-  - name: ci-push-docker-hub
+  - name: ci-push-docker-hub_runCI
     type: runCI
     steps:
       - OUT: demo_doc_img
-
 
 
 ## job to provision PROD VMs and ECS cluster
