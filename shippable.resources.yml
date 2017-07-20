@@ -88,7 +88,7 @@ resources:
     type: image
     integration: "demo_dh"
     pointer:
-      sourceName: "avinci/samplejavatomcat"
+      sourceName: "avinci/ci_push_docker_hub"
     seed:
       versionName: "latest"
 
