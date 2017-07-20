@@ -89,7 +89,7 @@ jobs:
     type: runSh
     steps:
       - IN: test_tf_state
-      - IN: prov_ecs_test
+      - IN: sit
         switch: off
       - IN: vpc_conf
         switch: off
