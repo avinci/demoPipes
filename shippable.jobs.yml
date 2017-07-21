@@ -182,7 +182,7 @@ jobs:
       - IN: prod_env_ecs
         switch: off
       - TASK: managed
-        deployMethod: replace
+#        deployMethod: replace
 
 #---------------------------------------------------------------#
 #---------------------- DEPROVISION INFRA ----------------------#
