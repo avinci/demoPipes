@@ -30,7 +30,7 @@ jobs:
         switch: off
       - TASK:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
+        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
       - OUT: ami_vpc_conf
       - OUT: test_vpc_conf
       - OUT: prod_vpc_conf
@@ -51,6 +51,7 @@ jobs:
       - IN: auto_repo
         switch: off
       - IN: ami_vpc_conf
+        switch: off
       - TASK:
         - script: . IN/auto_repo/gitRepo/shipUtil.sh
         - script: . IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
