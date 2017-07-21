@@ -27,7 +27,7 @@ resources:
         TEST_PUBLIC_CIDR: "210.0.0.0/24"
         PROD_VPC: "prod_vpc"
         PROD_NETWORK_CIDR: "100.0.0.0/16"
-        PROD_PUBLIC_CIDR: "100.0.0/24"
+        PROD_PUBLIC_CIDR: "100.0.0.0/24"
 
 # Parameters to hold AMI VPC settings
   - name: ami_vpc_conf
