@@ -171,10 +171,8 @@ jobs:
     steps:
       - IN: prod_tf_state
       - IN: ami_sec_approved
-        switch: off
       - IN: prod_vpc_conf
         switch: off
-      - IN: trig_prod_deploy
       - IN: aws_pem
         switch: off
       - IN: aws_creds
@@ -238,6 +236,7 @@ jobs:
     type: deploy
     steps:
       - IN: scale_app_prod
+      - IN: trig_prod_deploy
       - IN: release_app
         switch: off
       - IN: prod_env_ecs
@@ -248,8 +247,6 @@ jobs:
     type: runSh
     steps:
       - IN: prod_tf_state
-      - IN: deploy_app_prod
-        switch: off
       - IN: prod_vpc_conf
         switch: off
       - IN: aws_creds
