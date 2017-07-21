@@ -63,6 +63,7 @@ jobs:
     type: runSh
     steps:
       - IN: test_tf_state
+      - IN: create_app_man
       - IN: ami_sec_approved
       - IN: vpc_conf
         switch: off
