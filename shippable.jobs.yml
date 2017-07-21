@@ -164,25 +164,31 @@ jobs:
       - TASK: managed
 
 ## job to provision PROD VMs and ECS cluster
-#  - name: prov_ecs_prod
-#    type: runSh
-#    steps:
-#      - IN: aws_pem
-#      - IN: aws_creds
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_params
-#        switch: off
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/provisionAWS.sh awsProdECS
-#      - OUT: prod_env_ecs
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
-
+  - name: prov_ecs_prod
+    type: runSh
+    steps:
+      - IN: prod_tf_state
+      - IN: ami_sec_approved
+        switch: off
+      - IN: prod_vpc_conf
+        switch: off
+      - IN: aws_pem
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provProdInfra.sh create
+      - OUT: prod_env_ecs
+      - OUT: prod_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
 ############################# TEST AUTO JOBS ##############################
 # job to run SIT testing
