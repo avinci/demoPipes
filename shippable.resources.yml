@@ -82,29 +82,17 @@ resources:
       sourceName : "test-aws"
       region: "us-east-1"
 
-## Reference to ECS PROD Cluster
-#  - name: prod_env_ecs
-#    type: cluster
-#    integration: "demo_aws_key"
-#    pointer:
-#      sourceName : "prod-aws"
-#      region: "us-east-1"
+# Reference to ECS PROD Cluster
+  - name: prod_env_ecs
+    type: cluster
+    integration: "demo_aws_key"
+    pointer:
+      sourceName : "prod-aws"
+      region: "us-east-1"
 
 ####################### DOCKER Based WAR CI AUTO RESOURCES #######################
-## Docker credentials
-#  - name: docker_creds
-#    type: integration
-#    integration: "demo_dh"
-#
-## Source code for sample WAR app
-#  - name: demo_doc_repo
-#    type: gitRepo
-#    integration: "demo_gh"
-#    pointer:
-#      sourceName: "avinci/samplejavatomcat"
-#      branch: docker
-#
-# Docker Image packaging sample WAR
+
+# Docker Image packaging sample Node app
   - name: demo_doc_img
     type: image
     integration: "demo_dh"
@@ -139,20 +127,20 @@ resources:
         API_URL: "54.158.18.50:8080"
         API_TOKEN: "NA"
 
-############################## RELEASE AUTO RESOURCES #########################
-## version resource
-#  - name: seed_app_ver
-#    type: version
-#    seed:
-#      versionName: "1.0.0"
-#
-## Version Param
-#  - name: prod_app_ver
-#    type: params
-#    version:
-#      params:
-#        RELEASE_VER_NUMBER: "1.0.0"
-#
+############################# RELEASE AUTO RESOURCES #########################
+# version resource
+  - name: seed_app_ver
+    type: version
+    seed:
+      versionName: "1.0.0"
+
+# Version Param
+  - name: prod_app_ver
+    type: params
+    version:
+      params:
+        RELEASE_VER_NUMBER: "1.0.0"
+
 ############################ CD AUTO RESOURCES ################################
 #
 ## Number of packaged WARs to deploy to Prod

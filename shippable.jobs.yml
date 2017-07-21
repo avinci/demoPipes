@@ -183,20 +183,6 @@ jobs:
 #    always:
 #      - script: /build/IN/auto_repo/gitRepo/archiveProvisionState.sh awsProdECS
 
-#  - name: ci_app
-#    type: runCLI
-#    steps:
-#      - IN: docker_creds
-#      - IN: demo_doc_repo
-#      - TASK:
-#        - script: IN/demo_doc_repo/gitRepo/build.sh
-#      - OUT: demo_doc_img
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILED"
-#
-#
 
 ############################# TEST AUTO JOBS ##############################
 # job to run SIT testing
@@ -213,28 +199,28 @@ jobs:
     on_failure:
       - script: touch /build/state/failure.txt
 
-############################# RELEASE AUTO JOBS #############################
-## job to create a production release
-#  - name: release_app
-#    type: release
-#    steps:
-#      - IN: seed_app_ver
-#      - IN: sit
-#        switch: off
-#      - TASK: managed
-#        bump: patch
-#
-## job manipulate prod version param
-#  - name: set_prod_app_ver
-#    type: runSh
-#    steps:
-#      - IN: auto_repo
-#        switch: off
-#      - IN: release_app
-#      - OUT: prod_app_ver
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
-#
+############################ RELEASE AUTO JOBS #############################
+# job to create a production release
+  - name: release_app
+    type: release
+    steps:
+      - IN: seed_app_ver
+      - IN: sit
+        switch: off
+      - TASK: managed
+        bump: patch
+
+# job manipulate prod version param
+  - name: set_prod_app_ver
+    type: runSh
+    steps:
+      - IN: auto_repo
+        switch: off
+      - IN: release_app
+      - OUT: prod_app_ver
+      - TASK:
+        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
+
 ################################# CD AUTO JOBS ################################
 ## deploy job that deploys native war to PROD ECS Cluster
 #  - name: deploy_app_prod
