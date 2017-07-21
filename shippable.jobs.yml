@@ -216,28 +216,29 @@ jobs:
         bump: patch
 
 # job manipulate prod version param
-  - name: set_prod_app_ver
+  - name: trig_prod_deploy
     type: runSh
     steps:
       - IN: auto_repo
         switch: off
       - IN: release_app
+        switch: off
       - OUT: prod_app_ver
       - TASK:
         - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
 
-################################# CD AUTO JOBS ################################
-## deploy job that deploys native war to PROD ECS Cluster
-#  - name: deploy_app_prod
-#    type: deploy
-#    steps:
-#      - IN: scale_app_prod
-#      - IN: prod_app_ver
-#      - IN: deploy_app_test
-#        switch: off
-#      - IN: prod_env_ecs
-#        switch: off
-#      - TASK: managed
+################################ CD AUTO JOBS ################################
+# deploy job that deploys native war to PROD ECS Cluster
+  - name: deploy_app_prod
+    type: deploy
+    steps:
+      - IN: scale_app_prod
+      - IN: prod_app_ver
+      - IN: release_app
+        switch: off
+      - IN: prod_env_ecs
+        switch: off
+      - TASK: managed
 
 
 
