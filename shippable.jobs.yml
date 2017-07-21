@@ -68,7 +68,7 @@ jobs:
       - IN: create_app_man
       - IN: ami_sec_approved
         switch: off
-      - IN: vpc_conf
+      - IN: test_vpc_conf
         switch: off
       - IN: aws_pem
         switch: off
@@ -95,7 +95,7 @@ jobs:
       - IN: test_tf_state
       - IN: sit
         switch: off
-      - IN: vpc_conf
+      - IN: test_vpc_conf
         switch: off
       - IN: aws_creds
         switch: off
