@@ -4,7 +4,6 @@ export ACTION=$1
 export CURR_JOB_CONTEXT="awsSetupIAM"
 export STATE_RES="net_tf_state"
 export RES_CONF="net_conf"
-export OUT_RES_SET="vpc_conf"
 export OUT_AMI_VPC="ami_vpc_conf"
 export OUT_TEST_VPC="test_vpc_conf"
 export OUT_PROD_VPC="prod_vpc_conf"
