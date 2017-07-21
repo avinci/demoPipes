@@ -171,6 +171,8 @@ jobs:
       - IN: ami_sec_approved
         switch: off
       - IN: prod_vpc_conf
+        switch: off
+      - IN: trig_prod_deploy
       - IN: aws_pem
         switch: off
       - IN: aws_creds
