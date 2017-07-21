@@ -50,7 +50,7 @@ jobs:
         switch: off
       - IN: auto_repo
         switch: off
-      - IN: vpc_conf
+      - IN: ami_vpc_conf
       - TASK:
         - script: . IN/auto_repo/gitRepo/shipUtil.sh
         - script: . IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
