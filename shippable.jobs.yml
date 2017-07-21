@@ -88,7 +88,7 @@ jobs:
   - name: de_prov_ecs_test
     type: runSh
     steps:
-#      - IN: test_tf_state
+      - IN: test_tf_state
       - IN: sit
         switch: off
       - IN: vpc_conf
@@ -103,7 +103,7 @@ jobs:
         - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh destroy
 #      - OUT: test_env_ecs
-#      - OUT: test_tf_state
+      - OUT: test_tf_state
     on_success:
       - script: echo "SUCCESS"
     on_failure:
