@@ -180,6 +180,7 @@ jobs:
       - IN: release_app
         switch: off
       - IN: prod_env_ecs
+        switch: off
       - TASK: managed
 
 #---------------------------------------------------------------#
