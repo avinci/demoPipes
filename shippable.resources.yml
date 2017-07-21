@@ -120,7 +120,7 @@ resources:
       memory: 256
       cpuShares: 256
       portMappings:
-        - 8080:8080
+        - 80:80
 
 ############################### TEST AUTO RESOURCES #########################
 # REPO of SIT code
