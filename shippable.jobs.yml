@@ -118,6 +118,8 @@ jobs:
   - name: de_prov_net
     type: runSh
     steps:
+      - IN: setup_net
+        switch: off
       - IN: net_tf_state
       - IN: net_conf
         switch: off
