@@ -236,11 +236,9 @@ jobs:
     type: deploy
     steps:
       - IN: scale_app_prod
-      - IN: trig_prod_deploy
       - IN: release_app
         switch: off
       - IN: prod_env_ecs
-        switch: off
       - TASK: managed
 
 
