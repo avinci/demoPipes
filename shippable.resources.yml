@@ -111,8 +111,8 @@ resources:
   - name: doc_img_opts
     type: dockerOptions
     version:
-      memory: 256
-      cpuShares: 256
+#      memory: 256
+#      cpuShares: 256
       portMappings:
         - 80:80
 
