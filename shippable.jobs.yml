@@ -133,31 +133,31 @@ jobs:
 #----------------------- CD to Production ----------------------#
 #---------------------------------------------------------------#
 
-## PROVISION PROD VMs and ECS cluster
-  - name: prov_ecs_prod
-    type: runSh
-    steps:
-      - IN: prod_tf_state
-      - IN: ami_sec_approved
-      - IN: prod_vpc_conf
-        switch: off
-      - IN: aws_pem
-        switch: off
-      - IN: aws_creds
-        switch: off
-      - IN: auto_repo
-        switch: off
-      - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh create
-      - OUT: prod_env_ecs
-      - OUT: prod_tf_state
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+### PROVISION PROD VMs and ECS cluster
+#  - name: prov_ecs_prod
+#    type: runSh
+#    steps:
+#      - IN: prod_tf_state
+#      - IN: ami_sec_approved
+#      - IN: prod_vpc_conf
+#        switch: off
+#      - IN: aws_pem
+#        switch: off
+#      - IN: aws_creds
+#        switch: off
+#      - IN: auto_repo
+#        switch: off
+#      - TASK:
+#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+#        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh create
+#      - OUT: prod_env_ecs
+#      - OUT: prod_tf_state
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
 ## TRIGGER PROD deployment
 #  - name: trig_prod_deploy
@@ -214,31 +214,31 @@ jobs:
     always:
       - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
 
-# DEPROVISION PROD VMs and ECS cluster
-  - name: de_prov_ecs_prod
-    type: runSh
-    steps:
-      - IN: prov_ecs_prod
-        switch: off
-      - IN: prod_tf_state
-      - IN: prod_vpc_conf
-        switch: off
-      - IN: aws_creds
-        switch: off
-      - IN: auto_repo
-        switch: off
-      - IN: ami_sec_approved
-        switch: off
-      - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh destroy
-      - OUT: prod_tf_state
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILURE"
-    always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+## DEPROVISION PROD VMs and ECS cluster
+#  - name: de_prov_ecs_prod
+#    type: runSh
+#    steps:
+#      - IN: prov_ecs_prod
+#        switch: off
+#      - IN: prod_tf_state
+#      - IN: prod_vpc_conf
+#        switch: off
+#      - IN: aws_creds
+#        switch: off
+#      - IN: auto_repo
+#        switch: off
+#      - IN: ami_sec_approved
+#        switch: off
+#      - TASK:
+#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+#        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh destroy
+#      - OUT: prod_tf_state
+#    on_success:
+#      - script: echo "SUCCESS"
+#    on_failure:
+#      - script: echo "FAILURE"
+#    always:
+#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
 # DEPROVISION NETWORK
   - name: de_prov_net
