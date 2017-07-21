@@ -121,6 +121,8 @@ jobs:
       - IN: net_tf_state
       - IN: de_prov_ecs_test
         switch: off
+      - IN: de_prov_ecs_prod
+        switch: off
       - IN: net_conf
         switch: off
       - IN: aws_creds
