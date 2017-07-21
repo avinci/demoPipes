@@ -159,8 +159,8 @@ jobs:
     type: deploy
     steps:
       - IN: create_app_man
-      - IN: test_env_ecs
         switch: off
+      - IN: test_env_ecs
       - TASK: managed
 
 ## job to provision PROD VMs and ECS cluster
