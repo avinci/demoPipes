@@ -157,7 +157,7 @@ resources:
   - name: scale_app_prod
     type: replicas
     version:
-      count: 2
+      count: 1
 
 
 
