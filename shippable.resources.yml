@@ -149,15 +149,15 @@ resources:
         RELEASE_VER_NUMBER: "1.0.0"
 
 
-##---------------------------------------------------------------#
-##---------------------- CD to PROD Resources -------------------#
-##---------------------------------------------------------------#
-#
-## Number of packaged WARs to deploy to Prod
-#  - name: scale_app_prod
-#    type: replicas
-#    version:
-#      count: 2
+#---------------------------------------------------------------#
+#---------------------- CD to PROD Resources -------------------#
+#---------------------------------------------------------------#
+
+# Number of packaged WARs to deploy to Prod
+  - name: scale_app_prod
+    type: replicas
+    version:
+      count: 2
 
 
 
