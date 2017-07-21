@@ -29,13 +29,6 @@ resources:
         PROD_NETWORK_CIDR: "100.0.0.0/16"
         PROD_PUBLIC_CIDR: "1000.0.0/24"
 
-# Parameters to hold VPC settings
-  - name: vpc_conf
-    type: params
-    version:
-      params:
-        SEED: "initial_version"
-
 # Parameters to hold AMI VPC settings
   - name: ami_vpc_conf
     type: params
