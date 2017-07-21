@@ -233,7 +233,6 @@ jobs:
     type: deploy
     steps:
       - IN: scale_app_prod
-      - IN: prod_app_ver
       - IN: release_app
         switch: off
       - IN: prod_env_ecs
