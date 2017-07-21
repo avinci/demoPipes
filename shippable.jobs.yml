@@ -159,30 +159,30 @@ jobs:
     always:
       - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
-# TRIGGER PROD deployment
-  - name: trig_prod_deploy
-    type: runSh
-    steps:
-      - IN: auto_repo
-        switch: off
-      - IN: release_app
-        switch: off
-      - OUT: prod_app_ver
-      - TASK:
-        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
-
-# DEPLOY app to PROD
-  - name: deploy_app_prod1
-    type: deploy
-    steps:
-      - IN: scale_app_prod
-      - IN: trig_prod_deploy
-      - IN: release_app
-        switch: off
-      - IN: prod_env_ecs
-        switch: off
-      - TASK: managed
-#        deployMethod: replace
+## TRIGGER PROD deployment
+#  - name: trig_prod_deploy
+#    type: runSh
+#    steps:
+#      - IN: auto_repo
+#        switch: off
+#      - IN: release_app
+#        switch: off
+#      - OUT: prod_app_ver
+#      - TASK:
+#        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
+#
+## DEPLOY app to PROD
+#  - name: deploy_app_prod1
+#    type: deploy
+#    steps:
+#      - IN: scale_app_prod
+#      - IN: trig_prod_deploy
+#      - IN: release_app
+#        switch: off
+#      - IN: prod_env_ecs
+#        switch: off
+#      - TASK: managed
+##        deployMethod: replace
 
 #---------------------------------------------------------------#
 #---------------------- DEPROVISION INFRA ----------------------#
