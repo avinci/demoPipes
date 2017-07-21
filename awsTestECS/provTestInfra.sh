@@ -3,7 +3,7 @@
 export ACTION=$1
 export CURR_JOB_CONTEXT="awsTestECS"
 export STATE_RES="test_tf_state"
-export RES_CONF="vpc_conf"
+export RES_CONF="test_vpc_conf"
 export RES_AMI="ami_sec_approved"
 export OUT_RES_SET="test_env_ecs"
 
