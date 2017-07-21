@@ -25,9 +25,33 @@ resources:
         TEST_VPC: "test_vpc"
         TEST_NETWORK_CIDR: "210.0.0.0/16"
         TEST_PUBLIC_CIDR: "210.0.0.0/24"
+        PROD_VPC: "prod_vpc"
+        PROD_NETWORK_CIDR: "100.0.0.0/16"
+        PROD_PUBLIC_CIDR: "1000.0.0/24"
 
 # Parameters to hold VPC settings
   - name: vpc_conf
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
+# Parameters to hold AMI VPC settings
+  - name: ami_vpc_conf
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
+# Parameters to hold TEST VPC settings
+  - name: test_vpc_conf
+    type: params
+    version:
+      params:
+        SEED: "initial_version"
+
+# Parameters to hold PROD VPC settings
+  - name: prod_vpc_conf
     type: params
     version:
       params:
@@ -46,11 +70,15 @@ resources:
         SEED: "initial_version"
 
 # Networking State for terraform provisioning
-  - name: ami_tf_state
+  - name: net_tf_state
     type: state
 
 # Test State for terraform provisioning
   - name: test_tf_state
+    type: state
+
+# Test State for terraform provisioning
+  - name: prod_tf_state
     type: state
 
 # Reference to ECS Test Cluster

@@ -2,9 +2,12 @@
 
 export ACTION=$1
 export CURR_JOB_CONTEXT="awsSetupIAM"
-export STATE_RES="ami_tf_state"
+export STATE_RES="net_tf_state"
 export RES_CONF="net_conf"
 export OUT_RES_SET="vpc_conf"
+export OUT_AMI_VPC="ami_vpc_conf"
+export OUT_TEST_VPC="test_vpc_conf"
+export OUT_PROD_VPC="prod_vpc_conf"
 
 export RES_REPO="auto_repo"
 export RES_AWS_CREDS="aws_creds"
@@ -27,6 +30,9 @@ export AMI_PUBLIC_CIDR=$(ship_resource_get_param $RES_CONF AMI_PUBLIC_CIDR)
 export TEST_VPC=$(ship_resource_get_param $RES_CONF TEST_VPC)
 export TEST_NETWORK_CIDR=$(ship_resource_get_param $RES_CONF TEST_NETWORK_CIDR)
 export TEST_PUBLIC_CIDR=$(ship_resource_get_param $RES_CONF TEST_PUBLIC_CIDR)
+export PROD_VPC=$(ship_resource_get_param $RES_CONF PROD_VPC)
+export PROD_NETWORK_CIDR=$(ship_resource_get_param $RES_CONF PROD_NETWORK_CIDR)
+export PROD_PUBLIC_CIDR=$(ship_resource_get_param $RES_CONF PROD_PUBLIC_CIDR)
 
 set_context(){
   pushd $RES_REPO_CONTEXT
@@ -59,6 +65,9 @@ set_context(){
   echo "test_vpc = \"$TEST_VPC\"" >> terraform.tfvars
   echo "test_network_cidr = \"$TEST_NETWORK_CIDR\"" >> terraform.tfvars
   echo "test_public_cidr = \"$TEST_PUBLIC_CIDR\"" >> terraform.tfvars
+  echo "prod_vpc = \"$PROD_VPC\"" >> terraform.tfvars
+  echo "prod_network_cidr = \"$PROD_NETWORK_CIDR\"" >> terraform.tfvars
+  echo "prod_public_cidr = \"$PROD_PUBLIC_CIDR\"" >> terraform.tfvars
 
   popd
 }
@@ -81,25 +90,39 @@ apply_changes() {
   echo "-----------------  Apply changes  ------------------"
   terraform apply
 
-  ship_resource_post_state $OUT_RES_SET versionName \
+  #output AMI VPC
+  ship_resource_post_state $OUT_AMI_VPC versionName \
     "Version from build $BUILD_NUMBER"
-
-  ship_resource_put_state $OUT_RES_SET REGION $REGION
-  ship_resource_put_state $OUT_RES_SET BASE_ECS_AMI \
+  ship_resource_put_state $OUT_AMI_VPC REGION $REGION
+  ship_resource_put_state $OUT_AMI_VPC BASE_ECS_AMI \
     $(terraform output base_ecs_ami)
-
-  ship_resource_put_state $OUT_RES_SET AMI_VPC_ID \
+  ship_resource_put_state $OUT_AMI_VPC AMI_VPC_ID \
     $(terraform output ami_vpc_id)
-  ship_resource_put_state $OUT_RES_SET AMI_PUBLIC_SN_ID \
+  ship_resource_put_state $OUT_AMI_VPC AMI_PUBLIC_SN_ID \
     $(terraform output ami_public_sn_id)
-  ship_resource_put_state $OUT_RES_SET AMI_PUBLIC_SG_ID \
+  ship_resource_put_state $OUT_AMI_VPC AMI_PUBLIC_SG_ID \
     $(terraform output ami_public_sg_id)
 
-  ship_resource_put_state $OUT_RES_SET TEST_VPC_ID \
+  #output TEST VPC
+  ship_resource_post_state $OUT_TEST_VPC versionName \
+    "Version from build $BUILD_NUMBER"
+  ship_resource_put_state $OUT_TEST_VPC REGION $REGION
+  ship_resource_put_state $OUT_TEST_VPC TEST_VPC_ID \
     $(terraform output test_vpc_id)
-  ship_resource_put_state $OUT_RES_SET TEST_PUBLIC_SN_ID \
+  ship_resource_put_state $OUT_TEST_VPC TEST_PUBLIC_SN_ID \
     $(terraform output test_public_sn_id)
-  ship_resource_put_state $OUT_RES_SET TEST_PUBLIC_SG_ID \
+  ship_resource_put_state $OUT_TEST_VPC TEST_PUBLIC_SG_ID \
+    $(terraform output test_public_sg_id)
+
+  #output PROD VPC
+  ship_resource_post_state $OUT_PROD_VPC versionName \
+    "Version from build $BUILD_NUMBER"
+  ship_resource_put_state $OUT_PROD_VPC REGION $REGION
+  ship_resource_put_state $OUT_PROD_VPC PROD_VPC_ID \
+    $(terraform output test_vpc_id)
+  ship_resource_put_state $OUT_PROD_VPC PROD_PUBLIC_SN_ID \
+    $(terraform output test_public_sn_id)
+  ship_resource_put_state $OUT_PROD_VPC PROD_PUBLIC_SG_ID \
     $(terraform output test_public_sg_id)
 
   popd

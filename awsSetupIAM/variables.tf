@@ -63,3 +63,17 @@ variable "test_network_cidr" {
 variable "test_public_cidr" {
   description = "Public 0.0 CIDR for externally accesible subnet"
 }
+
+########################### Prod VPC Config ################################
+
+variable "prod_vpc" {
+  description = "VPC for Prod environment"
+}
+
+variable "prod_network_cidr" {
+  description = "Uber IP addressing for Prod Network"
+}
+
+variable "prod_public_cidr" {
+  description = "Public 0.0 CIDR for externally accesible subnet"
+}
