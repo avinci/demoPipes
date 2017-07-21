@@ -211,7 +211,6 @@ jobs:
     steps:
       - IN: seed_app_ver
       - IN: sit
-        switch: off
       - IN: deploy_app_test
         switch: off
       - TASK: managed
