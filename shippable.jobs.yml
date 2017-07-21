@@ -242,6 +242,8 @@ jobs:
   - name: de_prov_ecs_prod
     type: runSh
     steps:
+      - IN: prov_ecs_prod
+        switch: off
       - IN: prod_tf_state
       - IN: prod_vpc_conf
         switch: off
