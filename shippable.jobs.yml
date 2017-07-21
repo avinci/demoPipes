@@ -63,72 +63,72 @@ jobs:
       - IN: demo_doc_img
       - IN: doc_img_opts
 
-##---------------------------------------------------------------#
-##-------------------- App Release Automation -------------------#
-##---------------------------------------------------------------#
-#
-## PROVISION TEST VMs and ECS cluster with TERRAFORM
-#  - name: prov_ecs_test
-#    type: runSh
-#    steps:
-#      - IN: test_tf_state
-#      - IN: create_app_man
-#      - IN: ami_sec_approved
-#        switch: off
-#      - IN: test_vpc_conf
-#        switch: off
-#      - IN: aws_pem
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
-#      - OUT: test_env_ecs
-#      - OUT: test_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
-#
-## DEPLOY to TEST environment
-#  - name: deploy_app_test
-#    type: deploy
-#    steps:
-#      - IN: create_app_man
-#        switch: off
-#      - IN: test_env_ecs
-#      - TASK: managed
-#
-## RUN System Integration Testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: deploy_app_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
-#
-## CREATE a production ready release
-#  - name: release_app
-#    type: release
-#    steps:
-#      - IN: seed_app_ver
-#      - IN: sit
-#      - IN: deploy_app_test
-#        switch: off
-#      - TASK: managed
-#        bump: patch
-#
+#---------------------------------------------------------------#
+#-------------------- App Release Automation -------------------#
+#---------------------------------------------------------------#
+
+# PROVISION TEST VMs and ECS cluster with TERRAFORM
+  - name: prov_ecs_test
+    type: runSh
+    steps:
+      - IN: test_tf_state
+      - IN: create_app_man
+      - IN: ami_sec_approved
+        switch: off
+      - IN: test_vpc_conf
+        switch: off
+      - IN: aws_pem
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
+      - OUT: test_env_ecs
+      - OUT: test_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+
+# DEPLOY to TEST environment
+  - name: deploy_app_test
+    type: deploy
+    steps:
+      - IN: create_app_man
+        switch: off
+      - IN: test_env_ecs
+      - TASK: managed
+
+# RUN System Integration Testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: deploy_app_test
+      - IN: sit_params
+      - TASK:
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
+
+# CREATE a production ready release
+  - name: release_app
+    type: release
+    steps:
+      - IN: seed_app_ver
+      - IN: sit
+      - IN: deploy_app_test
+        switch: off
+      - TASK: managed
+        bump: patch
+
 ##---------------------------------------------------------------#
 ##----------------------- CD to Production ----------------------#
 ##---------------------------------------------------------------#
