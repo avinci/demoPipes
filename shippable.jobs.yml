@@ -170,19 +170,19 @@ jobs:
       - OUT: prod_app_ver
       - TASK:
         - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
-#
-## DEPLOY app to PROD
-#  - name: deploy_app_prod
-#    type: deploy
-#    steps:
-#      - IN: scale_app_prod
-#      - IN: trig_prod_deploy
-#      - IN: release_app
-#        switch: off
-#      - IN: prod_env_ecs
-#        switch: off
-#      - TASK: managed
-##        deployMethod: replace
+
+# DEPLOY app to PROD
+  - name: deploy_app_prod
+    type: deploy
+    steps:
+      - IN: scale_app_prod
+      - IN: trig_prod_deploy
+      - IN: release_app
+        switch: off
+      - IN: prod_env_ecs
+        switch: off
+      - TASK: managed
+#        deployMethod: replace
 
 #---------------------------------------------------------------#
 #---------------------- DEPROVISION INFRA ----------------------#
