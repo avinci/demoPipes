@@ -139,6 +139,7 @@ jobs:
     steps:
       - IN: prod_tf_state
       - IN: ami_sec_approved
+        switch: off
       - IN: prod_vpc_conf
         switch: off
       - IN: aws_pem
