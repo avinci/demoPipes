@@ -4,266 +4,266 @@ jobs:
 #------------------------- Netowrk Setup -----------------------#
 #---------------------------------------------------------------#
 
-## SETUP AWS IAM roles, profiles, VPCs etc. with TERRAFORM
-#  - name: setup_net
-#    type: runSh
-#    steps:
-#      - IN: net_tf_state
-#      - IN: net_conf
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
-#      - OUT: ami_vpc_conf
-#      - OUT: test_vpc_conf
-#      - OUT: prod_vpc_conf
-#      - OUT: net_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
-#
-## CREATE AWS AMI used to deploy ECS VMs with PACKER
-#  - name: build_ecs_ami
-#    type: runSh
-#    steps:
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_vpc_conf
-#      - TASK:
-#        - script: . IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
-#      - OUT: ami_sec_approved
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#
-##---------------------------------------------------------------#
-##------------------- BUILD/CI with SHIPPABLE CI ----------------#
-##---------------------------------------------------------------#
-#
-### PACKAGE sample Node.js into docker container
-#  - name: ci-push-docker-hub_runCI
-#    type: runCI
-#    steps:
-#      - OUT: demo_doc_img
-#
-## DEFINE app micro service
-#  - name: create_app_man
-#    type: manifest
-#    steps:
-#      - IN: demo_doc_img
-#      - IN: doc_img_opts
-#
-##---------------------------------------------------------------#
-##-------------------- App Release Automation -------------------#
-##---------------------------------------------------------------#
-#
-## PROVISION TEST VMs and ECS cluster with TERRAFORM
-#  - name: prov_ecs_test
-#    type: runSh
-#    steps:
-#      - IN: test_tf_state
-#      - IN: create_app_man
-#      - IN: ami_sec_approved
-#        switch: off
-#      - IN: test_vpc_conf
-#        switch: off
-#      - IN: aws_pem
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
-#      - OUT: test_env_ecs
-#      - OUT: test_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
-#
-## DEPLOY to TEST environment
-#  - name: deploy_app_test
-#    type: deploy
-#    steps:
-#      - IN: create_app_man
-#        switch: off
-#      - IN: test_env_ecs
-#      - TASK: managed
-#
-## RUN System Integration Testing
-#  - name: sit
-#    type: runSh
-#    steps:
-#      - IN: sit_repo
-#      - IN: deploy_app_test
-#      - IN: sit_params
-#      - TASK:
-#        - script: IN/sit_repo/gitRepo/test.sh sit_params
-#    on_success:
-#      - script: touch /build/state/success.txt
-#    on_failure:
-#      - script: touch /build/state/failure.txt
-#
-## CREATE a production ready release
-#  - name: release_app
-#    type: release
-#    steps:
-#      - IN: seed_app_ver
-#      - IN: sit
-#      - IN: deploy_app_test
-#        switch: off
-#      - TASK: managed
-#        bump: patch
+# SETUP AWS IAM roles, profiles, VPCs etc. with TERRAFORM
+  - name: setup_net
+    type: runSh
+    steps:
+      - IN: net_tf_state
+      - IN: net_conf
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
+      - OUT: ami_vpc_conf
+      - OUT: test_vpc_conf
+      - OUT: prod_vpc_conf
+      - OUT: net_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
+
+# CREATE AWS AMI used to deploy ECS VMs with PACKER
+  - name: build_ecs_ami
+    type: runSh
+    steps:
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - IN: ami_vpc_conf
+      - TASK:
+        - script: . IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . IN/auto_repo/gitRepo/awsBuildAMI/basePack.sh
+      - OUT: ami_sec_approved
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+
+#---------------------------------------------------------------#
+#------------------- BUILD/CI with SHIPPABLE CI ----------------#
+#---------------------------------------------------------------#
+
+## PACKAGE sample Node.js into docker container
+  - name: ci-push-docker-hub_runCI
+    type: runCI
+    steps:
+      - OUT: demo_doc_img
+
+# DEFINE app micro service
+  - name: create_app_man
+    type: manifest
+    steps:
+      - IN: demo_doc_img
+      - IN: doc_img_opts
+
+#---------------------------------------------------------------#
+#-------------------- App Release Automation -------------------#
+#---------------------------------------------------------------#
+
+# PROVISION TEST VMs and ECS cluster with TERRAFORM
+  - name: prov_ecs_test
+    type: runSh
+    steps:
+      - IN: test_tf_state
+      - IN: create_app_man
+      - IN: ami_sec_approved
+        switch: off
+      - IN: test_vpc_conf
+        switch: off
+      - IN: aws_pem
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
+      - OUT: test_env_ecs
+      - OUT: test_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+
+# DEPLOY to TEST environment
+  - name: deploy_app_test
+    type: deploy
+    steps:
+      - IN: create_app_man
+        switch: off
+      - IN: test_env_ecs
+      - TASK: managed
+
+# RUN System Integration Testing
+  - name: sit
+    type: runSh
+    steps:
+      - IN: sit_repo
+      - IN: deploy_app_test
+      - IN: sit_params
+      - TASK:
+        - script: IN/sit_repo/gitRepo/test.sh sit_params
+    on_success:
+      - script: touch /build/state/success.txt
+    on_failure:
+      - script: touch /build/state/failure.txt
+
+# CREATE a production ready release
+  - name: release_app
+    type: release
+    steps:
+      - IN: seed_app_ver
+      - IN: sit
+      - IN: deploy_app_test
+        switch: off
+      - TASK: managed
+        bump: patch
 
 #---------------------------------------------------------------#
 #----------------------- CD to Production ----------------------#
 #---------------------------------------------------------------#
 
-### PROVISION PROD VMs and ECS cluster
-#  - name: prov_ecs_prod
-#    type: runSh
-#    steps:
-#      - IN: prod_tf_state
-#      - IN: ami_sec_approved
-#      - IN: prod_vpc_conf
-#        switch: off
-#      - IN: aws_pem
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh create
-#      - OUT: prod_env_ecs
-#      - OUT: prod_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+## PROVISION PROD VMs and ECS cluster
+  - name: prov_ecs_prod
+    type: runSh
+    steps:
+      - IN: prod_tf_state
+      - IN: ami_sec_approved
+      - IN: prod_vpc_conf
+        switch: off
+      - IN: aws_pem
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh create
+      - OUT: prod_env_ecs
+      - OUT: prod_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
-## TRIGGER PROD deployment
-#  - name: trig_prod_deploy
-#    type: runSh
-#    steps:
-#      - IN: auto_repo
-#        switch: off
-#      - IN: release_app
-#        switch: off
-#      - OUT: prod_app_ver
-#      - TASK:
-#        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
-#
-## DEPLOY app to PROD
-#  - name: deploy_app_prod1
-#    type: deploy
-#    steps:
-#      - IN: scale_app_prod
-#      - IN: trig_prod_deploy
-#      - IN: release_app
-#        switch: off
-#      - IN: prod_env_ecs
-#        switch: off
-#      - TASK: managed
-##        deployMethod: replace
+# TRIGGER PROD deployment
+  - name: trig_prod_deploy
+    type: runSh
+    steps:
+      - IN: auto_repo
+        switch: off
+      - IN: release_app
+        switch: off
+      - OUT: prod_app_ver
+      - TASK:
+        - script: IN/auto_repo/gitRepo/setVer.sh release_app prod_app_ver
 
-##---------------------------------------------------------------#
-##---------------------- DEPROVISION INFRA ----------------------#
-##---------------------------------------------------------------#
-#
-## DEPROVISION TEST VMs and ECS cluster
-#  - name: de_prov_ecs_test
-#    type: runSh
-#    steps:
-#      - IN: test_tf_state
-#      - IN: sit
-#        switch: off
-#      - IN: test_vpc_conf
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_sec_approved
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh destroy
-#      - OUT: test_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+# DEPLOY app to PROD
+  - name: deploy_app_prod1
+    type: deploy
+    steps:
+      - IN: scale_app_prod
+      - IN: trig_prod_deploy
+      - IN: release_app
+        switch: off
+      - IN: prod_env_ecs
+        switch: off
+      - TASK: managed
+#        deployMethod: replace
 
-## DEPROVISION PROD VMs and ECS cluster
-#  - name: de_prov_ecs_prod
-#    type: runSh
-#    steps:
-#      - IN: prov_ecs_prod
-#        switch: off
-#      - IN: prod_tf_state
-#      - IN: prod_vpc_conf
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - IN: ami_sec_approved
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh destroy
-#      - OUT: prod_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
-#
-## DEPROVISION NETWORK
-#  - name: de_prov_net
-#    type: runSh
-#    steps:
-#      - IN: setup_net
-#        switch: off
-#      - IN: net_tf_state
-#      - IN: net_conf
-#        switch: off
-#      - IN: aws_creds
-#        switch: off
-#      - IN: auto_repo
-#        switch: off
-#      - TASK:
-#        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
-#        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
-#      - OUT: net_tf_state
-#    on_success:
-#      - script: echo "SUCCESS"
-#    on_failure:
-#      - script: echo "FAILURE"
-#    always:
-#      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
-#
+#---------------------------------------------------------------#
+#---------------------- DEPROVISION INFRA ----------------------#
+#---------------------------------------------------------------#
+
+# DEPROVISION TEST VMs and ECS cluster
+  - name: de_prov_ecs_test
+    type: runSh
+    steps:
+      - IN: test_tf_state
+      - IN: sit
+        switch: off
+      - IN: test_vpc_conf
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - IN: ami_sec_approved
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh destroy
+      - OUT: test_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+
+# DEPROVISION PROD VMs and ECS cluster
+  - name: de_prov_ecs_prod
+    type: runSh
+    steps:
+      - IN: prov_ecs_prod
+        switch: off
+      - IN: prod_tf_state
+      - IN: prod_vpc_conf
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - IN: ami_sec_approved
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh destroy
+      - OUT: prod_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+
+# DEPROVISION NETWORK
+  - name: de_prov_net
+    type: runSh
+    steps:
+      - IN: setup_net
+        switch: off
+      - IN: net_tf_state
+      - IN: net_conf
+        switch: off
+      - IN: aws_creds
+        switch: off
+      - IN: auto_repo
+        switch: off
+      - TASK:
+        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
+        - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
+      - OUT: net_tf_state
+    on_success:
+      - script: echo "SUCCESS"
+    on_failure:
+      - script: echo "FAILURE"
+    always:
+      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
+
 
 
 
