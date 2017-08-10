@@ -15,5 +15,5 @@ output "prod_ecs_cluster_id" {
 }
 
 output "prod_ecs_ins_addresses" {
-  value = "Instances: ${element(aws_instance.prodECSIns.*.public_ip)}"
+  value = "Instances: ${aws_instance.prodECSIns.*.public_ip}"
 }
