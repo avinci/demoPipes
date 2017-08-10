@@ -15,5 +15,7 @@ output "prod_ecs_cluster_id" {
 }
 
 output "prod_ecs_ins_addresses" {
-  value = "Instances: ${element(aws_instance.prodECSIns.*.public_ip, 10)}"
+  value = "${formatlist("instance %v has private ip %v", aws_instance.prodECSIns.*.id, aws_instance.prodECSIns.*.public_ip)}"
 }
+
+
