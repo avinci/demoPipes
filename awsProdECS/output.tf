@@ -13,3 +13,7 @@ output "prod_ecs_ins_2_ip" {
 output "prod_ecs_cluster_id" {
   value = "${aws_ecs_cluster.prod-aws.id}"
 }
+
+output "prod_ecs_ins_addresses" {
+  value = "Instances: ${element(aws_instance.prodECSIns.*.public_ip, 0)}"
+}
