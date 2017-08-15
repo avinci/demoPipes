@@ -24,7 +24,7 @@ export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_C
 
 set_context(){
   # This restores the terraform state file
-  shipctl copy_resource_file_from_state $STATE_RES $TF_STATEFILE
+  shipctl copy_resource_file_from_state $STATE_RES $TF_STATEFILE .
 
   # now setup the variables based on context
   # naming the file terraform.tfvars makes terraform automatically load it
