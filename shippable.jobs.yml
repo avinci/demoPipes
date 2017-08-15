@@ -15,7 +15,6 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh create
       - OUT: ami_vpc_conf
       - OUT: test_vpc_conf
@@ -26,7 +25,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
 
 # CREATE AWS AMI used to deploy ECS VMs with PACKER
   - name: build_ecs_ami
