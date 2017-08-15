@@ -20,7 +20,7 @@ export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 
 # Now get AWS keys
 export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_secret_access_key)
+#export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
   # This restores the terraform state file
@@ -41,7 +41,7 @@ apply_changes() {
   terraform plan
 
   echo "-----------------  Apply changes  ------------------"
-  terraform apply
+#  terraform apply
 
   #output AMI VPC
   shipctl post_resource_state $OUT_AMI_VPC versionName \
