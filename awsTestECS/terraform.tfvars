@@ -1,0 +1,7 @@
+aws_access_key_id="${AWS_ACCESS_KEY_ID}"
+aws_secret_access_key="${AWS_SECRET_ACCESS_KEY}"
+region="${REGION}"
+test_vpc_id="${TEST_VPC_ID}"
+test_public_sn_id="${TEST_PUBLIC_SN_ID}"
+test_public_sg_id="${TEST_PUBLIC_SG_ID}"
+ami_id="${AMI_ID}"
