@@ -10,7 +10,7 @@ export REPO_RES_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 export NEW_TF_STATEFILE="$REPO_RES_CONTEXT/terraform.tfstate"
 
 main() {
-  shipctl refresh_file_to_state $NEW_TF_STATEFILE $STATE_RES
+  shipctl refresh_file_to_out_path $NEW_TF_STATEFILE $STATE_RES
 }
 
 main
