@@ -20,7 +20,7 @@ export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 
 # Now get AWS keys
 export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_access_key_id)
-#export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_secret_access_key)
+export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
   # This restores the terraform state file
@@ -29,7 +29,6 @@ set_context(){
   # now setup the variables based on context
   # naming the file terraform.tfvars makes terraform automatically load it
   shipctl replace terraform.tfvars
-  cat terraform.tfvars
 }
 
 destroy_changes() {
@@ -39,10 +38,10 @@ destroy_changes() {
 
 apply_changes() {
   echo "----------------  Planning changes  -------------------"
-#  terraform plan
+  terraform plan
 
   echo "-----------------  Apply changes  ------------------"
-#  terraform apply
+  terraform apply
 
   #output AMI VPC
   shipctl post_resource_state $OUT_AMI_VPC versionName \
