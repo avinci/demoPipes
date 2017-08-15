@@ -29,6 +29,7 @@ set_context(){
   # now setup the variables based on context
   # naming the file terraform.tfvars makes terraform automatically load it
   shipctl replace terraform.tfvars
+  cat terraform.tfvars
 }
 
 destroy_changes() {
@@ -38,7 +39,7 @@ destroy_changes() {
 
 apply_changes() {
   echo "----------------  Planning changes  -------------------"
-  terraform plan
+#  terraform plan
 
   echo "-----------------  Apply changes  ------------------"
 #  terraform apply
