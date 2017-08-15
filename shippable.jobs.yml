@@ -83,7 +83,6 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh create
       - OUT: test_env_ecs
       - OUT: test_tf_state
@@ -92,7 +91,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
 
 # DEPLOY to TEST environment
   - name: deploy_app_test
@@ -148,7 +147,6 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh create
       - OUT: prod_env_ecs
       - OUT: prod_tf_state
@@ -157,7 +155,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
 # TRIGGER PROD deployment
   - name: trig_prod_deploy
@@ -204,7 +202,6 @@ jobs:
       - IN: ami_sec_approved
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsTestECS/provTestInfra.sh destroy
       - OUT: test_tf_state
     on_success:
@@ -212,7 +209,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsTestECS test_tf_state
 
 # DEPROVISION PROD VMs and ECS cluster
   - name: de_prov_ecs_prod
@@ -230,7 +227,6 @@ jobs:
       - IN: ami_sec_approved
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsProdECS/provProdInfra.sh destroy
       - OUT: prod_tf_state
     on_success:
@@ -238,7 +234,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsProdECS prod_tf_state
 
 # DEPROVISION NETWORK
   - name: de_prov_net
@@ -254,7 +250,6 @@ jobs:
       - IN: auto_repo
         switch: off
       - TASK:
-        - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh
         - script: . /build/IN/auto_repo/gitRepo/awsSetupIAM/provNetwork.sh destroy
       - OUT: net_tf_state
     on_success:
@@ -262,7 +257,7 @@ jobs:
     on_failure:
       - script: echo "FAILURE"
     always:
-      - script: . /build/IN/auto_repo/gitRepo/shipUtil.sh && . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
+      - script: . /build/IN/auto_repo/gitRepo/archiveState.sh awsSetupIAM net_tf_state
 
 
 

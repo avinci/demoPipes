@@ -10,12 +10,12 @@ export TF_STATEFILE="terraform.tfstate"
 export OUT_RES_SET="test_env_ecs"
 
 # get the path where gitRepo code is available
-export RES_REPO_STATE=$(ship_resource_get_state $RES_REPO)
+export RES_REPO_STATE=$(shipctl get_resource_state $RES_REPO)
 export RES_REPO_CONTEXT="$RES_REPO_STATE/$CURR_JOB_CONTEXT"
 
 # Now get AWS keys
-export AWS_ACCESS_KEY_ID=$(ship_resource_get_integration $RES_AWS_CREDS aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(ship_resource_get_integration $RES_AWS_CREDS aws_secret_access_key)
+export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field $RES_AWS_CREDS aws_secret_access_key)
 
 set_context(){
   # This restores the terraform state file
